@@ -13,7 +13,7 @@ cmsrel CMSSW_11_2_1_patch2
 cd CMSSW_11_2_1_patch2/src/
 cmsenv
 git cms-merge-topic -u dtp2-tpg-am:AM_11_2_1_paths_splitting # AM emulator
-git clone https://github.com/dtp2-tpg-am/L1Trigger-DTPhase2Trigger.git L1Trigger/DTTriggerPhase2/data
+git clone https://github.com/dtp2-tpg-am/L1Trigger-DTTriggerPhase2.git L1Trigger/DTTriggerPhase2/data
 git clone https://github.com/NTrevisani/DTNtuples.git -b ntupleProduction_11_2_X DTDPGAnalysis/DTNtuples
 scramv1 b -j 5
 ```
