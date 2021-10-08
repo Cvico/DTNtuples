@@ -32,25 +32,23 @@ files = {'norpc':[], 'rpc':[], 'DM':[]}
 #files['norpc'].append('mu_pu200_newest_analyzer_387')
 #files['norpc'].append('mu_PU200_noRPC_noAgeing_20210223')
 #files['norpc'].append('mu_PU200_noRPC_noAgeing_20210308')
-files['norpc'].append('mu_PU200_noRPC_noAgeing_20210315')
-#files['norpc'].append('mu_PU200_noRPC_noAgeing_20210223_400')
-#files['norpc'].append('mu_PU200_noRPC_noAgeing_20210223_396')
-#files['norpc'].append('mu_pu200_newest_analyzer_perfectChi2')
-#files['norpc'].append('mu_PU200_noRPC_withAgeing_111X_1_0')
-#files['norpc'].append('mu_PU200_noRPC_noAgeing_last_int')
+#files['norpc'].append('mu_PU200_noRPC_noAgeing_20210315')
+#files['norpc'].append('mu_PU200_noRPC_noAgeing_newAnalyzer260521')
+#files['norpc'].append('mu_PU200_noRPC_withAgeing_ext')
+files['norpc'].append('rossin_noRPC_noAgeing_ext_confok_alignTrue')
+# files['norpc'].append('rossin_noRPC_withAgeing_alignTrue')
+
+
+algos = ["AM", "Ph1"]
+
 #files['norpc'].append('DTDPGNtuple_11_1_0_patch2_Phase2_Simulation_8muInBarrel_woRPC')
 #files['norpc'].append('pu200_noage_withrpc')
 #files['norpc'].append('DTDPGNtuple_11_1_0_patch2_Phase2_Simulation_8muInBarrel')
-#files['norpc'].append('mu_PU200_noRPC_noAgeing_newAnalyzer')
-#files['norpc'].append('mu_PU200_noRPC_noAgeing_newAnalyzer_notuck')
-#files['norpc'].append('mu_PU200_noRPC_withAgeing')
 #files['norpc'].append('mu_pu0_ov_bkg7p5')
 #files['norpc'].append('mu_bkg7p5_557')
 #files['DM'].append('PU0_DM_PT10-30_mod_2')
 #files['DM'].append('DM_NOPU_10-30')
 #files['norpc'].append('PU200_mu_bkg7p5')
-#files['norpc'].append('pu200_age_norpc_youngseg_muonage_norpcage_fail_3000')
-#files['rpc'].append('pu200_age_withrpc_youngseg_muonage_norpcage_fail_3000')
 
 '''
 Possible efficiency categories:
@@ -79,8 +77,10 @@ possibleQualities = ['All','correlated', 'Q8', 'legacy', 'index0', 'index01', 'i
 
 #qualities = ['']
 qualities = {'norpc':[],'rpc':[], 'DM':[]}
-#qualities['norpc'] = ['All','nothreehits','correlated','legacy']
-# qualities['norpc'] = ['All']
+#qualities['norpc'] = ['All', 'correlated']
+#qualities['norpc'] = ['index0', 'index01', 'index012', 'index0123', 'All']
+#qualities['norpc'] = ['All','nothreehits','legacy', 'correlated']
+#qualities['norpc'] = ['All']
 qualities['norpc'] = ['All','correlated', 'Q8', 'nothreehits']
 #qualities['norpc'] = ['Q8', 'nothreehits']
 #qualities['norpc'] = ['All','nothreehits']
@@ -131,64 +131,79 @@ for cat in files :
               time.sleep(2)
               analysis = DTNtupleTPGSimAnalyzer(path + fil + '.root', outputPath + 'results_effis_' +fil + '_' + quality + '.root', quality, DM)
               analysis.Loop()
+  for algo in algos:
+      for plot in ["Eff", "EffNoBX"]:
+        plottingStuff = {
+              'lowlimityaxis': 0,
+              'highlimityaxis': 1.01,
+              'markersize': 1,
+              'yaxistitle' : 'DT Local Trigger Efficiency',
+              'yaxistitleoffset': 1.5,
+              'xaxistitle': "Wheel",
+              #'legxlow' : 0.5,
+              'legxlow' : 0.3075 + 2 * 0.1975,
+              #'legylow': 0.2,
+              'legylow': 0.3,
+              'legxhigh': 0.9,
+              #'legyhigh': 0.5,
+              'legyhigh': 0.55,
+              'markertypedir':[],
+              'markercolordir':[],
+              # 'markertypedir':{},
+              # 'markercolordir':{},
+              'printPU':True,
+              'ageingTag': "",
+              'ageingLegend': "",
+            }
+        if plot == "SegEff": 
+            plottingStuff["lowlimityaxis"] = 0
+            plottingStuff['legylow'] = 0.7
+            
+        all_plots = []
+        all_legends = []
+        all_ageingTag = ""
+        for fil in files[cat]:
+          plotscaffold = "h" + plot + "_{st}_{al}_{ty}"
+          savescaffold = "h%s_%s_%s" % (plot, algo, fil)
 
-  for plot in ["Eff", "EffNoBX"]:
-    plottingStuff = { 'lowlimityaxis': 0.5,
-          'highlimityaxis': 1.01,
-          'markersize': 1,
-          'yaxistitle' : 'Efficiency (adim.)',
-          'yaxistitleoffset': 1.5,
-          'xaxistitle': "Wheel",
-          #'legxlow' : 0.5,
-          'legxlow' : 0.3075 + 2 * 0.1975,
-          #'legylow': 0.2,
-          'legylow': 0.4,
-          'legxhigh': 0.9,
-          'legyhigh': 0.6,
-          'markertypedir':[],
-          'markercolordir':[],
-          # 'markertypedir':{},
-          # 'markercolordir':{},
-          'printPU':True
-        }
-    if plot == "SegEff": 
-        plottingStuff["lowlimityaxis"] = 0
-        plottingStuff['legylow'] = 0.7
-        
-    all_plots = []
-    all_legends = []
-    for fil in files[cat]:
-      plotscaffold = "h" + plot + "_{st}_{al}_{ty}"
-      savescaffold = "h" + plot + "_" + fil
+          listofplots = []
+          myLegends = []
+          ageingTag = ("" if "withAgeing" not in fil else "3000 fb^{-1}")
+          if "withAgeing" in fil:
+            all_ageingTag = "3000 fb^{-1}"
+            plottingStuff["ageingLegend"] = "3000 fb^{-1} ageing"
+          else:
+            plottingStuff["ageingLegend"] = "No ageing"
 
-      listofplots = []
-      myLegends = []
+          for i in range (len(qualities[cat])) :
+            if not os.path.isfile(outputPath + 'results_effis_' + fil + '_' + qualities[cat][i] + '.root') :
+              if not qualities[cat][i] in legends :
+                print (bcolors.red + "ERROR: '" +  qualities[cat][i]  + "' is not one of the possible qualities" + bcolors.reset)
+              else :
+                print (bcolors.red + 'ERROR: ' + outputPath + 'results_effis_' + fil + '_' + qualities[cat][i] + '.root + does not exist, maybe running the ntuple production helps' + bcolors.reset)
+              continue
+            myLegends.append(legends[qualities[cat][i]])
+            all_legends.append(legends[fil] + " " + legends[qualities[cat][i]])
+            # plottingStuff['markertypedir']["h" + plot + "_AM" + "_" + qualities[cat][i]] = 20
+            # plottingStuff['markercolordir']["h" + plot + "_AM" + "_" + qualities[cat][i]] = markerColors[i]
+            plottingStuff['markertypedir'].append(20)
+            plottingStuff['markercolordir'].append(markerColors[i])
+            # plottingStuff['ageingTag'] = ageingTag  # FIXME
+            effplot.makeresplot(listofplots, algo, qualities[cat][i], outputPath + 'results_effis_' + fil + '_' + qualities[cat][i] + '.root', plotscaffold)
+            all_plots.append(listofplots[-1])
 
-      for i in range (len(qualities[cat])) :
-        if not os.path.isfile(outputPath + 'results_effis_' + fil + '_' + qualities[cat][i] + '.root') :
-          if not qualities[cat][i] in legends :
-            print (bcolors.red + "ERROR: '" +  qualities[cat][i]  + "' is not one of the possible qualities" + bcolors.reset)
-          else :
-            print (bcolors.red + 'ERROR: ' + outputPath + 'results_effis_' + fil + '_' + qualities[cat][i] + '.root + does not exist, maybe running the ntuple production helps' + bcolors.reset)
-          continue
-        myLegends.append(legends[qualities[cat][i]])
-        all_legends.append(legends[fil] + " " + legends[qualities[cat][i]])
-        # plottingStuff['markertypedir']["h" + plot + "_AM" + "_" + qualities[cat][i]] = 20
-        # plottingStuff['markercolordir']["h" + plot + "_AM" + "_" + qualities[cat][i]] = markerColors[i]
-        plottingStuff['markertypedir'].append(20)
-        plottingStuff['markercolordir'].append(markerColors[i])
-        effplot.makeresplot(listofplots, "AM", qualities[cat][i], outputPath + 'results_effis_' + fil + '_' + qualities[cat][i] + '.root', plotscaffold)
-        all_plots.append(listofplots[-1])
-
-      print "\nCombining and saving\n"
-      effplot.combineresplots(listofplots, myLegends, plottingStuff, effPath,  savescaffold+'_0', fil )
-      #effplot.combineresplots(listofplots, legends[cat], plottingStuff, effPath,  savescaffold+'zoomIn' )
-    if files[cat]:
-        for i, marker in enumerate(plottingStuff['markertypedir']):
-            plottingStuff['markertypedir'][i] = marker + i / len(qualities[cat])
-
-        savescaffold = "h" + plot + "_" + cat
-        effplot.combineresplots(all_plots, all_legends, plottingStuff, effPath,  savescaffold+'_0', files[cat][-1] )
+          print "\nCombining and saving\n"
+          effplot.combineresplots(listofplots, myLegends, plottingStuff, effPath,  savescaffold+'_0', fil )
+          #effplot.combineresplots(listofplots, legends[cat], plottingStuff, effPath,  savescaffold+'zoomIn' )
+        if files[cat]:
+            del plottingStuff["ageingLegend"]
+            plottingStuff['legxlow'] =  0.3075 + 1 * 0.1975
+            for i, marker in enumerate(plottingStuff['markertypedir']):
+                plottingStuff['markertypedir'][i] = marker + i / len(qualities[cat])
+            plottingStuff['ageingTag'] = all_ageingTag
+            savescaffold = "h" + plot + "_" + cat
+            effplot.combineresplots(all_plots, all_legends, plottingStuff, effPath,  savescaffold+'_0', files[cat][-1] )
+            plottingStuff['legxlow'] =  0.3075 + 2 * 0.1975
 
 #if True : sys.exit(1)
 
@@ -220,7 +235,7 @@ plottingStuff2['qualities1'] = { 'lowlimityaxis': 0.2,
 		      'legyhigh': .44,
 		      'markertypedir':{},
 		      'markercolordir':{},
-          'PU':'200'
+              'PU':'200',
    		    }
 plottingStuff2['qualities2'] = { 'lowlimityaxis': 0.5,
 		      'highlimityaxis': 1,
@@ -278,6 +293,7 @@ for ch in chambTag :
       for fil in files['norpc'] :
         plotscaffold = "h" + plot + "_" + ch +"_{al}_{ty}"
         savescaffold = "h" + plot + "_" + key + "_" + ch
+        
 
         for i in range (len(Qualities[key])) :
           if not os.path.isfile(outputPath + 'results_effis_' + fil + '_' + Qualities[key][i] + '.root') :
@@ -289,6 +305,7 @@ for ch in chambTag :
           myLegends.append(legends[fil]+" "+legends[Qualities[key][i]])
           plottingStuff2[key]['markertypedir']["hEff_" + "AM" + "_" + fil+Qualities[key][i]] = 20 + a*6
           plottingStuff2[key]['markercolordir']["hEff_" + "AM" + "_" + fil+Qualities[key][i]] = markerColors[i]
+          plottingStuff2[key]['ageingTag'] = ("" if "withAgeing" not in fil else "3000 fb^{-1}")
           effplot.makeWhateverResplot(listofplots, "AM", fil+Qualities[key][i], outputPath + 'results_effis_' + fil + '_' + Qualities[key][i] + '.root', plotscaffold)
         a+=1
       if (len (files['norpc']) > 0 ) :
@@ -320,6 +337,7 @@ for ch in chambTag :
           myLegends.append(filesPU[fil] + " " + legends[Qualities[key][i]])
           plottingStuff2[key]['markertypedir']["hEff_" + "AM" + "_" + fil+Qualities[key][i]] = 20 + a*6
           plottingStuff2[key]['markercolordir']["hEff_" + "AM" + "_" + fil+Qualities[key][i]] = markerColors[i]
+          plottingStuff2[key]['ageingTag'] = ("" if "withAgeing" not in fil else "3000 fb^{-1}")
           effplot.makeWhateverResplot(listofplots, "AM", fil+Qualities[key][i], outputPath + 'results_effis_' + fil + '_' + Qualities[key][i] + '.root', plotscaffold2)
         a+=1
 
@@ -364,6 +382,7 @@ for File in files['DM'] :
     plotscaffold2 = "hEff_{al}_{ty}"
     plottingStuff['markertypedir']["hEff_" + algo + "_" + File ] = 20
     plottingStuff['markercolordir']["hEff_" + algo + "_" + File ] = markerColors[i]
+    plottingStuff['ageingTag'] = ("" if "withAgeing" not in fil else "3000 fb^{-1}")
     i+=1
     effplot.makeWhateverResplot(plotList, algo, File, outputPath + 'results_effis_' + File + '_All'  + '.root', plotscaffold2)
   effplot.combineEffPlots(plotList, legendsDM, plottingStuff, DMPath, 'hEffVsSlope_' + File)
@@ -377,6 +396,7 @@ for File in files['DM'] :
         plotscaffold2 = "hEff_" + wh + "_" + ch + "_{al}_{ty}"
         plottingStuff['markertypedir']["hEff_" + algo + "_" + File ] = 20
         plottingStuff['markercolordir']["hEff_" + algo + "_" + File ] = markerColors[i]
+        plottingStuff['ageingTag'] = ("" if "withAgeing" not in fil else "3000 fb^{-1}")
         i+=1
         effplot.makeWhateverResplot(plotList, algo, File, outputPath + 'results_effis_' + File + '_All'  + '.root', plotscaffold2)
       effplot.combineEffPlots(plotList, legendsDM, plottingStuff, DMPath, 'hEffVsSlope_' + wh + '_' + ch + '_' + File )
@@ -403,6 +423,7 @@ for File in files['DM'] :
     plotscaffold2 = "hEffLxy_{al}_{ty}"
     plottingStuff2['markertypedir']["hEff_" + algo + "_" + File ] = 20
     plottingStuff2['markercolordir']["hEff_" + algo + "_" + File ] = markerColors[i]
+    plottingStuff2['ageingTag'] = ("" if "withAgeing" not in fil else "3000 fb^{-1}")
     i+=1
     effplot.makeWhateverResplot(plotList, algo, File, outputPath + 'results_effis_' + File + '_All'  + '.root', plotscaffold2)
   effplot.combineEffPlots(plotList, legendsDM, plottingStuff2, DMPath, 'hEffVsLxy_' + File)
@@ -416,6 +437,7 @@ for File in files['DM'] :
         plotscaffold2 = "hEffLxy_" + wh + "_" + ch + "_{al}_{ty}"
         plottingStuff2['markertypedir']["hEff_" + algo + "_" + File ] = 20
         plottingStuff2['markercolordir']["hEff_" + algo + "_" + File ] = markerColors[i]
+        plottingStuff2['ageingTag'] = ("" if "withAgeing" not in fil else "3000 fb^{-1}")
         i+=1
         effplot.makeWhateverResplot(plotList, algo, File, outputPath + 'results_effis_' + File + '_All'  + '.root', plotscaffold2)
       effplot.combineEffPlots(plotList, legendsDM, plottingStuff2, DMPath, 'hEffVsLxy_' + wh + '_' + ch + "_" + File )

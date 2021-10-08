@@ -66,9 +66,9 @@ void DTNtupleTPGSimAnalyzer::book()
   std::vector<std::string> chambTags  = { "MB1", "MB2", "MB3", "MB4"};
   std::vector<std::string> whTags     = { "Wh-2", "Wh-1", "Wh0", "Wh+1", "Wh+2"};
   std::vector<std::string> secTags    = { "Sec1", "Sec2", "Sec3", "Sec4", "Sec5", "Sec6", "Sec7", "Sec8","Sec9","Sec10","Sec11","Sec12","Sec13","Sec14"};
-  std::vector<std::string> qualTags   = { "Correlated", "Uncorrelated","3h","4h","All", "Legacy","Q8","Q7","Q6"};
-  Double_t limtanpsi   = 0.1; Double_t limphi   = 0.0015; Double_t limphiB   = 0.1;  Double_t limtime  = 50.5;   Double_t limx   = 0.15; Double_t limBX   = 8.5;
-  UShort_t nbinstanpsi = 500; UShort_t nbinsphi = 501; UShort_t nbinsphiB = 501;  UShort_t nbinstime = 101; UShort_t nbinsx = 501; UShort_t nbinsBX = 17;
+  std::vector<std::string> qualTags   = { "Correlated", "Uncorrelated","3h","4h","All", "Legacy","Q8","Q7","Q6","Q1","Q2","Q3","Q4"};
+  Double_t limtanpsi   = 100; Double_t limphi   = 1500; Double_t limphiB   = 100;  Double_t limtime  = 50.5;   Double_t limx   = 1500; Double_t limBX   = 8.5;
+  UShort_t nbinstanpsi = 501; UShort_t nbinsphi = 501; UShort_t nbinsphiB = 501;  UShort_t nbinstime = 101; UShort_t nbinsx = 101; UShort_t nbinsBX = 17;
   m_plots["hQualAll"] = new TH1F("HQualAll", "All primitives quality distribution; Quality; Entries",9,0.5,9.5 );
   m_plots["hQualEff"] = new TH1F("HQualEff", "Efficient primitives quality distribution; Quality; Entries",9,0.5,9.5 );
   m_plots["hQualBest"] = new TH1F("HQualBest", "Best primitives quality distribution; Quality; Entries",9,0.5,9.5 );
@@ -139,19 +139,19 @@ void DTNtupleTPGSimAnalyzer::book()
   for (const auto & algo : algoTag){
     for (const auto & qual : qualTags){
       m_plots["TanPsiRes_P2" + algo + qual] = new TH1F(("hTanPsiRes_P2"+ algo + qual).c_str() ,
-        "TanPsiRes Seg-TP total distribution; #Delta tan(#psi) (adim.); entries",
+        "TanPsiRes Seg-TP total distribution; #Delta tan(#psi) (mrad); entries",
       nbinstanpsi,-limtanpsi,+limtanpsi);
       m_plots["PhiRes_P2" + algo + qual] = new TH1F(("hPhiRes_P2"+ algo + qual).c_str(),
-        "PhiRes Seg-TP total distribution; #Delta#phi (rad); entries",
+        "PhiRes Seg-TP total distribution; #Delta#phi (#murad); entries",
       nbinsphi,-limphi,+limphi);
       m_plots["PhiBRes_P2" + algo + qual] = new TH1F(("hPhiBRes_P2"+ algo + qual).c_str(),
-        "PhiBRes Seg-TP total distribution; #Delta#phiB (rad); entries",
+        "PhiBRes Seg-TP total distribution; #Delta#phiB (mrad); entries",
       nbinsphiB,-limphiB,+limphiB);
       m_plots["TimeRes_P2" + algo + qual] = new TH1F(("hTimeRes_P2"+ algo + qual).c_str(),
         "TimeRes Seg-TP total distribution; #Delta t (ns); entries",
       nbinstime,-limtime,+limtime);
       m_plots["xRes_P2" + algo + qual] = new TH1S(("hxRes_P2"+ algo + qual).c_str(),
-        "xRes Seg-TP total distribution; #Delta x (cm); entries",
+        "xRes Seg-TP total distribution; #Delta x (#mum); entries",
       nbinsx,-limx,+limx);
       m_plots["BX_P2" + algo + qual] = new TH1F(("BX_P2"+ algo + qual).c_str(),
         "BX total distribution; BX; entries",
@@ -159,19 +159,19 @@ void DTNtupleTPGSimAnalyzer::book()
 
       for (const auto & whTag : whTags){
         m_plots["TanPsiRes_P2" + algo + qual + whTag] = new TH1F(("hTanPsiRes" + algo + qual +"_" + whTag +  "_P2").c_str(),
-          ("TanPsiRes Seg-TP distribution for " + whTag +  "; #Delta tan(#psi) (adim.); entries").c_str(),
+          ("TanPsiRes Seg-TP distribution for " + whTag +  "; #Delta tan(#psi) (mrad); entries").c_str(),
         nbinstanpsi,-limtanpsi,+limtanpsi);
         m_plots["PhiRes_P2" + algo + qual + whTag] = new TH1F(("hPhiRes" + algo + qual  +"_" + whTag +  "_P2").c_str(),
-          ("PhiRes Seg-TP distribution for " + whTag +  "; #Delta#phi (rad); entries").c_str(),
+          ("PhiRes Seg-TP distribution for " + whTag +  "; #Delta#phi (#murad); entries").c_str(),
         nbinsphi,-limphi,+limphi);
         m_plots["PhiBRes_P2" + algo + qual + whTag] = new TH1F(("hPhiBRes" + algo + qual  +"_" + whTag +  "_P2").c_str(),
-          ("PhiBRes Seg-TP distribution for " + whTag +  "; #Delta#phiB (rad); entries").c_str(),
+          ("PhiBRes Seg-TP distribution for " + whTag +  "; #Delta#phiB (mrad); entries").c_str(),
         nbinsphiB,-limphiB,+limphiB);
         m_plots["TimeRes_P2" + algo + qual + whTag] = new TH1F(("hTimeRes" + algo + qual  +"_" + whTag +  "_P2").c_str(),
           ("TimeRes Seg-TP distribution for " + whTag +  "; #Delta t (ns); entries").c_str(),
         nbinstime,-limtime,+limtime);
         m_plots["xRes_P2" + algo + qual + whTag] = new TH1S(("hxRes" + algo + qual  +"_" + whTag +  "_P2").c_str(),
-          ("xRes Seg-TP distribution for " + whTag +  "; #Delta x (cm); entries").c_str(),
+          ("xRes Seg-TP distribution for " + whTag +  "; #Delta x (#mum); entries").c_str(),
         nbinsx,-limx,+limx);
         m_plots["BX_P2" + algo + qual + whTag] = new TH1F(("BX_P2"+ algo + qual + "_" + whTag + "_P2").c_str(),
           "BX total distribution; BX; entries",
@@ -179,19 +179,22 @@ void DTNtupleTPGSimAnalyzer::book()
 
         for (const auto & chambTag : chambTags){
           m_plots["TanPsiRes_P2" + algo + qual + whTag + chambTag] = new TH1F(("hTanPsiRes" + algo + qual  + "_" + whTag + "_" + chambTag +  "_P2").c_str(),
-            ("TanPsiRes Seg-TP distribution for " + chambTag +  "; #Delta tan(#psi) (adim.); entries").c_str(),
+            ("TanPsiRes Seg-TP distribution for " + chambTag +  "; #Delta tan(#psi) (mrad); entries").c_str(),
           nbinstanpsi,-limtanpsi,+limtanpsi);
           m_plots["PhiRes_P2" + algo + qual + whTag + chambTag] = new TH1F(("hPhiRes" + algo + qual + "_" + whTag  + "_" + chambTag +  "_P2").c_str(),
-            ("PhiRes Seg-TP distribution for " + chambTag +  "; #Delta#phi (rad); entries").c_str(),
+            ("PhiRes Seg-TP distribution for " + chambTag +  "; #Delta#phi (#murad); entries").c_str(),
           nbinsphi,-limphi,+limphi);
           m_plots["PhiBRes_P2" + algo + qual + whTag + chambTag] = new TH1F(("hPhiBRes" + algo + qual + "_" + whTag  + "_" + chambTag +  "_P2").c_str(),
-            ("PhiBRes Seg-TP distribution for " + chambTag +  "; #Delta#phiB (rad); entries").c_str(),
+            ("PhiBRes Seg-TP distribution for " + chambTag +  "; #Delta#phiB (mrad); entries").c_str(),
           nbinsphiB,-limphiB,+limphiB);
           m_plots["TimeRes_P2" + algo + qual + whTag + chambTag] = new TH1F(("hTimeRes" + algo + qual + "_" + whTag +"_" + chambTag +  "_P2").c_str(),
             ("TimeRes Seg-TP distribution for " + chambTag +  "; #Delta t (ns); entries").c_str(),
           nbinstime,-limtime,+limtime);
+          m_plots["Time_P2" + algo + qual + whTag + chambTag] = new TH1F(("hTime" + algo + qual + "_" + whTag +"_" + chambTag +  "_P2").c_str(),
+            ("Time Seg-TP distribution for " + chambTag +  "; #Delta t (ns); entries").c_str(),
+          nbinstime,-limtime,+limtime);
           m_plots["xRes_P2" + algo + qual + whTag + chambTag] = new TH1S(("hxRes" + algo + qual + "_" + whTag +"_" + chambTag +  "_P2").c_str(),
-            ("xRes Seg-TP distribution for " + chambTag +  "; #Delta x (cm); entries").c_str(),
+            ("xRes Seg-TP distribution for " + chambTag +  "; #Delta x (#mum); entries").c_str(),
           nbinsx,-limx,+limx);
           m_plots["BX_P2" + algo + qual + whTag + chambTag] = new TH1F(("BX_P2"+ algo + qual + "_" + whTag + "_" + chambTag + "_P2").c_str(),
             "BX total distribution; BX; entries",
@@ -199,19 +202,19 @@ void DTNtupleTPGSimAnalyzer::book()
 
           for (const auto & secTag : secTags){
             m_plots["TanPsiRes_P2" + algo + qual + whTag + chambTag + secTag] = new TH1F(("hTanPsiRes" + algo + qual  + "_" + whTag + "_" + chambTag + "_" + secTag +  "_P2").c_str(),
-              ("TanPsiRes Seg-TP distribution for " + chambTag +  "; #Delta tan(#psi) (adim.); entries").c_str(),
+              ("TanPsiRes Seg-TP distribution for " + chambTag +  "; #Delta tan(#psi) (mrad); entries").c_str(),
             nbinstanpsi,-limtanpsi,+limtanpsi);
             m_plots["PhiRes_P2" + algo + qual + whTag + chambTag + secTag] = new TH1F(("hPhiRes" + algo + qual + "_" + whTag  + "_" + chambTag+ "_" + secTag +  "_P2").c_str(),
-              ("PhiRes Seg-TP distribution for " + chambTag +  "; #Delta#phi (rad); entries").c_str(),
+              ("PhiRes Seg-TP distribution for " + chambTag +  "; #Delta#phi (#murad); entries").c_str(),
             nbinsphi,-limphi,+limphi);
             m_plots["PhiBRes_P2" + algo + qual + whTag + chambTag + secTag] = new TH1F(("hPhiBRes" + algo + qual + "_" + whTag  + "_" + chambTag+ "_" + secTag +  "_P2").c_str(),
-              ("PhiBRes Seg-TP distribution for " + chambTag +  "; #Delta#phiB (rad); entries").c_str(),
+              ("PhiBRes Seg-TP distribution for " + chambTag +  "; #Delta#phiB (mrad); entries").c_str(),
             nbinsphiB,-limphiB,+limphiB);
             m_plots["TimeRes_P2" + algo + qual + whTag + chambTag + secTag] = new TH1F(("hTimeRes" + algo + qual + "_" + whTag +"_" + chambTag + "_" + secTag +  "_P2").c_str(),
               ("TimeRes Seg-TP distribution for " + chambTag +  "; #Delta t (ns); entries").c_str(),
             nbinstime,-limtime,+limtime);
             m_plots["xRes_P2" + algo + qual + whTag + chambTag + secTag] = new TH1S(("hxRes" + algo + qual + "_" + whTag +"_" + chambTag + "_" + secTag +  "_P2").c_str(),
-              ("xRes Seg-TP distribution for " + chambTag +  "; #Delta x (cm); entries").c_str(),
+              ("xRes Seg-TP distribution for " + chambTag +  "; #Delta x (#mum); entries").c_str(),
             nbinsx,-limx,+limx);
             m_plots["BX_P2" + algo + qual + whTag + chambTag + secTag] = new TH1F(("BX_P2"+ algo + qual + "_" + whTag + "_" + chambTag + "_" + secTag + "_P2").c_str(),
               "BX total distribution; BX; entries",
@@ -222,19 +225,19 @@ void DTNtupleTPGSimAnalyzer::book()
 
       for (const auto & secTag : secTags){
         m_plots["TanPsiRes_P2" + algo + qual + secTag] = new TH1F(("hTanPsiRes" + algo + qual  +"_" + secTag +  "_P2").c_str(),
-          ("TanPsiRes Seg-TP distribution for " + secTag +  "; #Delta tan(#psi) (adim.); entries").c_str(),
+          ("TanPsiRes Seg-TP distribution for " + secTag +  "; #Delta tan(#psi) (mrad); entries").c_str(),
         nbinstanpsi,-limtanpsi,+limtanpsi);
         m_plots["PhiRes_P2" + algo + qual + secTag] = new TH1F(("hPhiRes" + algo + qual  +"_" + secTag +  "_P2").c_str(),
-          ("Phi Res Seg-TP distribution for " + secTag +  "; #Delta#phi (rad); entries").c_str(),
+          ("Phi Res Seg-TP distribution for " + secTag +  "; #Delta#phi (#murad); entries").c_str(),
         nbinsphi,-limphi,+limphi);
         m_plots["PhiBRes_P2" + algo + qual + secTag] = new TH1F(("hPhiBRes" + algo + qual  +"_" + secTag +  "_P2").c_str(),
-          ("PhiB Res Seg-TP distribution for " + secTag +  "; #Delta#phiB (rad); entries").c_str(),
+          ("PhiB Res Seg-TP distribution for " + secTag +  "; #Delta#phiB (mrad); entries").c_str(),
         nbinsphiB,-limphiB,+limphiB);
         m_plots["TimeRes_P2" + algo + qual + secTag] = new TH1F(("hTimeRes" + algo + qual  +"_" + secTag +  "_P2").c_str(),
           ("TimeRes Seg-TP distribution for " + secTag +  "; #Delta t (ns); entries").c_str(),
         nbinstime,-limtime,+limtime);
         m_plots["xRes_P2" + algo + qual + secTag] = new TH1S(("hxRes" + algo + qual  +"_" + secTag +  "_P2").c_str(),
-          ("xRes Seg-TP distribution for " + secTag +  "; #Delta x (cm); entries").c_str(),
+          ("xRes Seg-TP distribution for " + secTag +  "; #Delta x (#mum); entries").c_str(),
         nbinsx,-limx,+limx);
         m_plots["BX_P2" + algo + qual + secTag] = new TH1F(("BX_P2"+ algo + qual + "_" + secTag + "_P2").c_str(),
           "BX total distribution; BX; entries",
@@ -243,19 +246,19 @@ void DTNtupleTPGSimAnalyzer::book()
 
       for (const auto & chambTag : chambTags){
         m_plots["TanPsiRes_P2" + algo + qual + chambTag] = new TH1F(("hTanPsiRes" + algo + qual  +"_" + chambTag +  "_P2").c_str(),
-          ("TanPsiRes Seg-TP distribution for " + chambTag +  "; #Delta tan(#psi) (adim.); entries").c_str(),
+          ("TanPsiRes Seg-TP distribution for " + chambTag +  "; #Delta tan(#psi) (mrad); entries").c_str(),
         nbinstanpsi,-limtanpsi,+limtanpsi);
         m_plots["PhiRes_P2" + algo + qual + chambTag] = new TH1F(("hPhi Res" + algo + qual  +"_" + chambTag +  "_P2").c_str(),
-          ("PhiRes Seg-TP distribution for " + chambTag +  "; #Delta#phi (rad); entries").c_str(),
+          ("PhiRes Seg-TP distribution for " + chambTag +  "; #Delta#phi (#murad); entries").c_str(),
         nbinsphi,-limphi,+limphi);
         m_plots["PhiBRes_P2" + algo + qual + chambTag] = new TH1F(("hPhiB Res" + algo + qual  +"_" + chambTag +  "_P2").c_str(),
-          ("PhiBRes Seg-TP distribution for " + chambTag +  "; #Delta#phiB (rad); entries").c_str(),
+          ("PhiBRes Seg-TP distribution for " + chambTag +  "; #Delta#phiB (mrad); entries").c_str(),
         nbinsphiB,-limphiB,+limphiB);
         m_plots["TimeRes_P2" + algo + qual + chambTag] = new TH1F(("hTimeRes" + algo + qual  +"_" + chambTag +  "_P2").c_str(),
           ("TimeRes Seg-TP distribution for " + chambTag +  "; #Delta t (ns); entries").c_str(),
         nbinstime,-limtime,+limtime);
         m_plots["xRes_P2" + algo + qual + chambTag] = new TH1S(("hxRes" + algo + qual  +"_" + chambTag +  "_P2").c_str(),
-          ("xRes Seg-TP distribution for " + chambTag +  "; #Delta x (cm); entries").c_str(),
+          ("xRes Seg-TP distribution for " + chambTag +  "; #Delta x (#mum); entries").c_str(),
         nbinsx,-limx,+limx);
         m_plots["BX_P2" + algo + qual + chambTag] = new TH1F(("BX_P2"+ algo + qual + "_" + chambTag + "_P2").c_str(),
           "BX total distribution; BX; entries",
@@ -343,7 +346,8 @@ void DTNtupleTPGSimAnalyzer::fill()
         //if (trigAMrpc == 3) continue;
         //if (trigAMrpc == 3 || trigAMrpc == 2) continue;
         if (segWh  == trigAMWh && segSec == trigAMSec &&  segSt  == trigAMSt){
-          Double_t trigGlbPhi    = trigPhiInRad(ph2TpgPhiEmuAm_phi->at(iTrigAM),trigAMSec);
+          //Double_t trigGlbPhi    = trigPhiInRad(ph2TpgPhiEmuAm_phiCMSSW->at(iTrigAM), trigAMSec);
+          Double_t trigGlbPhi    = trigPhiInRad(ph2TpgPhiEmuAm_phi->at(iTrigAM), trigAMSec);
           if (segWh==-2 && segSt == 1) m_plots["Phi_AM"+secTag]->Fill(trigGlbPhi);
           Double_t mySegPhi;
           // if (false) {
@@ -358,7 +362,7 @@ void DTNtupleTPGSimAnalyzer::fill()
             //mySegPhi = seg_posGlb_phi->at(iSeg);
           }
           //Double_t finalAMDPhi   = acos(cos(mySegPhi - trigGlbPhi));
-          Double_t finalAMDPhi   = mySegPhi - trigGlbPhi;
+          Double_t finalAMDPhi   = - mySegPhi + trigGlbPhi;
           //Double_t segTrigAMDPhi = abs(finalAMDPhi);
           Double_t segTrigAMDPhi = abs(acos(cos(finalAMDPhi)));
           nPrims++;
@@ -372,16 +376,16 @@ void DTNtupleTPGSimAnalyzer::fill()
               bestSegTrigAMDPhi = segTrigAMDPhi;
               bestAMDPhi = finalAMDPhi;
             }
-            } else {
+          } else {
             //if (trigAMBX != 20 || ph2TpgPhiEmuAm_index->at(iTrigAM)!=0) continue;
-            if (trigAMBX != 20) continue;
-            DPhiAM.push_back(TVector2::Phi_mpi_pi(finalAMDPhi));
+            if (trigAMBX != 20 || segTrigAMDPhi > m_maxSegTrigDPhi) continue;
+            DPhiAM.push_back(TVector2::Phi_mpi_pi(finalAMDPhi) / 1.E-6);
             indexAM.push_back(iTrigAM);
           }
         }
       }
       if (unique && bestTPAM > -1) {
-        DPhiAM.push_back(TVector2::Phi_mpi_pi(bestAMDPhi));
+        DPhiAM.push_back(TVector2::Phi_mpi_pi(bestAMDPhi) / 1.E-6);
         indexAM.push_back(bestTPAM);
       }
       m_plots["hPrims"]->Fill(nPrims);
@@ -399,13 +403,17 @@ void DTNtupleTPGSimAnalyzer::fill()
         }
         else {
           corrList.push_back( "Uncorrelated" );
+          if (ph2TpgPhiEmuAm_quality->at(indexAM.at(i)) == LOWQ) corrList.push_back("Q1");
+          if (ph2TpgPhiEmuAm_quality->at(indexAM.at(i)) == CLOWQ) corrList.push_back("Q2");
+          if (ph2TpgPhiEmuAm_quality->at(indexAM.at(i)) == HIGHQ) corrList.push_back("Q3");
+          if (ph2TpgPhiEmuAm_quality->at(indexAM.at(i)) == CHIGHQ) corrList.push_back("Q4");
           if ((ph2TpgPhiEmuAm_quality->at(indexAM.at(i)) == LOWQ) || (ph2TpgPhiEmuAm_quality->at(indexAM.at(i)) == CLOWQ) ) corrList.push_back( "3h" );
           else if ((ph2TpgPhiEmuAm_quality->at(indexAM.at(i)) == HIGHQ) || (ph2TpgPhiEmuAm_quality->at(indexAM.at(i)) == CHIGHQ)) corrList.push_back( "4h" );
         }
         if (ph2TpgPhiEmuAm_quality->at(indexAM.at(i)) >= HIGHQ) corrList.push_back("Legacy");
 
         for (const auto & corr : corrList){
-          Double_t segLocalAMDtanpsi = (seg_dirLoc_x->at(iSeg) / seg_dirLoc_z->at(iSeg)) - tan (TMath::TwoPi() * ph2TpgPhiEmuAm_dirLoc_phi->at(indexAM.at(i)) / 360 ) ;
+          Double_t segLocalAMDtanpsi = (- (seg_dirLoc_x->at(iSeg) / seg_dirLoc_z->at(iSeg)) + tan (TMath::TwoPi() * ph2TpgPhiEmuAm_dirLoc_phi->at(indexAM.at(i)) / 360 )) / 1.E-3;
           m_plots["TanPsiRes_P2_AM" + corr]           ->Fill( segLocalAMDtanpsi );
           m_plots["TanPsiRes_P2_AM" + corr + whTag]   ->Fill( segLocalAMDtanpsi );
           m_plots["TanPsiRes_P2_AM" + corr + whTag + chambTag]   ->Fill( segLocalAMDtanpsi );
@@ -434,12 +442,13 @@ void DTNtupleTPGSimAnalyzer::fill()
           double segPsi = atan ( seg_dirLoc_x->at(iSeg) / seg_dirLoc_z->at(iSeg) );
           double segPhiB = atan(tan(segPsi - (segPhi - TMath::Pi() / 6 * (segSec - 1))));
           double DPhiBAM = -999;
-          if (fabs(segPhiB - ph2TpgPhiEmuAm_phiB->at(indexAM.at(i)) / PHIBRES_CONV ) < 0.1) {
-            DPhiBAM = segPhiB - ph2TpgPhiEmuAm_phiB->at(indexAM.at(i)) / PHIBRES_CONV;
+          if (fabs( - segPhiB + ph2TpgPhiEmuAm_phiB->at(indexAM.at(i)) / PHIBRES_CONV ) < 0.1) {
+            DPhiBAM = - segPhiB + ph2TpgPhiEmuAm_phiB->at(indexAM.at(i)) / PHIBRES_CONV;
             } else {
             segPhiB = atan(tan(-segPsi - (segPhi - TMath::Pi() / 6 * (segSec - 1))));
-            DPhiBAM = segPhiB - ph2TpgPhiEmuAm_phiB->at(indexAM.at(i)) / PHIBRES_CONV;
+            DPhiBAM = - segPhiB + ph2TpgPhiEmuAm_phiB->at(indexAM.at(i)) / PHIBRES_CONV;
           }
+          DPhiBAM /= 1.E-3;
           m_plots["PhiBRes_P2_AM" + corr]           ->Fill( DPhiBAM );
           m_plots["PhiBRes_P2_AM" + corr + whTag]   ->Fill( DPhiBAM );
           m_plots["PhiBRes_P2_AM" + corr + whTag + chambTag]   ->Fill( DPhiBAM );
@@ -448,7 +457,7 @@ void DTNtupleTPGSimAnalyzer::fill()
           m_plots["PhiBRes_P2_AM" + corr + chambTag]->Fill( DPhiBAM );
           // Time
           if (seg_phi_t0->at(iSeg) > -500){
-            float segLocalAMDtime = seg_phi_t0->at(iSeg)  - ph2TpgPhiEmuAm_t0->at(indexAM.at(i)) + 20*25;
+            float segLocalAMDtime = - seg_phi_t0->at(iSeg) + (ph2TpgPhiEmuAm_t0->at(indexAM.at(i)) - 20*25);
             // Time
             m_plots["TimeRes_P2_AM" + corr]           ->Fill( segLocalAMDtime );
             m_plots["TimeRes_P2_AM" + corr + whTag]   ->Fill( segLocalAMDtime );
@@ -456,6 +465,8 @@ void DTNtupleTPGSimAnalyzer::fill()
             m_plots["TimeRes_P2_AM" + corr + whTag + chambTag + secTag]   ->Fill( segLocalAMDtime );
             m_plots["TimeRes_P2_AM" + corr + secTag]  ->Fill( segLocalAMDtime );
             m_plots["TimeRes_P2_AM" + corr + chambTag]->Fill( segLocalAMDtime );
+
+            m_plots["Time_P2_AM" + corr + whTag + chambTag] -> Fill((ph2TpgPhiEmuAm_t0->at(indexAM.at(i)) - 20*25));
             // BX
             m_plots["BX_P2_AM" + corr]           ->Fill( ph2TpgPhiEmuAm_BX->at(indexAM.at(i)) - 20);
             m_plots["BX_P2_AM" + corr + whTag]   ->Fill( ph2TpgPhiEmuAm_BX->at(indexAM.at(i)) - 20);
@@ -466,11 +477,15 @@ void DTNtupleTPGSimAnalyzer::fill()
           }
           // x
           Double_t segLocalAMDx = 0;
+          Double_t trigPos = ph2TpgPhiEmuAm_posLoc_x_raw->at(indexAM.at(i)) / 1000.;
+          //Double_t trigPos = ph2TpgPhiEmuAm_posLoc_x->at(indexAM.at(i));
           if (isCorrelated){
-            segLocalAMDx = seg_posLoc_x_midPlane->at(iSeg) - ph2TpgPhiEmuAm_posLoc_x->at(indexAM.at(i));
+            segLocalAMDx = seg_posLoc_x_midPlane->at(iSeg) - trigPos;
           }
-          else if (ph2TpgPhiEmuAm_superLayer->at(indexAM.at(i)) == 1) segLocalAMDx = seg_posLoc_x_SL1->at(iSeg) - ph2TpgPhiEmuAm_posLoc_x->at(indexAM.at(i));
-          else                                                   segLocalAMDx = seg_posLoc_x_SL3->at(iSeg) - ph2TpgPhiEmuAm_posLoc_x->at(indexAM.at(i));
+          else if (ph2TpgPhiEmuAm_superLayer->at(indexAM.at(i)) == 1) 
+            segLocalAMDx =  - seg_posLoc_x_SL1->at(iSeg) + trigPos;
+          else segLocalAMDx = - seg_posLoc_x_SL3->at(iSeg) + trigPos;
+          segLocalAMDx /= 1.E-4; // cm to mum
           m_plots["xRes_P2_AM"+ corr]           ->Fill( segLocalAMDx );
           m_plots["xRes_P2_AM"+ corr + whTag]   ->Fill( segLocalAMDx );
           m_plots["xRes_P2_AM"+ corr + whTag + chambTag]   ->Fill( segLocalAMDx );
@@ -509,14 +524,14 @@ TH1F* DTNtupleTPGSimAnalyzer::makeHistoPerCorrelated( std::string mag, std::stri
   for (unsigned int i = 0; i < tags.size(); ++i){
     ret->GetXaxis()->SetBinLabel(i+1, tags[i].c_str());
     if (m_plots[mag + "_P2_" + algo + tags[i]]->Integral()){
-      RooRealVar x("x","",-ranges[mag],ranges[mag]);
-      RooRealVar mean("mean",",mean of Gaussian",0.,-means[mag],means[mag]);
-      RooRealVar sigma1("sigma1",",width of narrow Gaussian",ranges[mag]/2.5,0,sigmas[mag]);
-      RooRealVar sigma2("sigma2",",width of wide Gaussian",ranges[mag],0,sigmas[mag]);
+      RooRealVar x("x","",-ranges[mag], ranges[mag]);
+      RooRealVar mean("mean",",mean of Gaussian", 0., -means[mag], means[mag]);
+      RooRealVar sigma1("sigma1",",width of narrow Gaussian", ranges[mag]/2.5, 0, sigmas[mag]);
+      RooRealVar sigma2("sigma2",",width of wide Gaussian", ranges[mag], 0, sigmas[mag]);
       RooRealVar fraction("fraction",",fraction of narrow Gaussian",2./3.,0.,1.);
       RooGaussian gauss1("gauss1","Narrow Gaussian",x, mean, sigma1);
       RooGaussian gauss2("gauss2","Wide Gaussian",x, mean, sigma2);
-      RooAddPdf twogauss("twogauss","Two Gaussians pdf",RooArgList(gauss1,gauss2),fraction);
+      RooAddPdf twogauss("twogauss","Two Gaussians pdf", RooArgList(gauss1,gauss2), fraction);
       RooDataHist data("data","data",x,m_plots[mag + "_P2_" + algo + tags[i]]);
       twogauss.fitTo(data,RooFit::Extended());
       ret->SetBinContent(i+1, sigma1.getVal());
@@ -557,18 +572,8 @@ TH1F* DTNtupleTPGSimAnalyzer::makeHistoPer( std::string mag, std::string suffix,
 
 void DTNtupleTPGSimAnalyzer::endJob()
 {
-  // make the fits
-  std::vector<std::string> chambTags = { "MB1", "MB2", "MB3", "MB4"};
-  std::vector<std::string> whTags    = { "Wh-2", "Wh-1", "Wh0", "Wh+1", "Wh+2"};
-  std::vector<std::string> secTags   = { "Sec1", "Sec2", "Sec3", "Sec4", "Sec5", "Sec6", "Sec7", "Sec8","Sec9","Sec10","Sec11","Sec12","Sec13","Sec14"};
-  std::vector<std::string> magnitudes = { "TimeRes", "PhiRes","PhiBRes", "TanPsiRes", "xRes"};
-  std::vector<std::string> algos      = { "AM", "HB" };
-  std::vector<std::string> qualTags   = { "Correlated", "Uncorrelated","3h","4h","All", "Legacy","Q9","Q8","Q6"};
   m_outFile.cd();
   m_outFile.Write();
   m_outFile.Close();
 }
-Double_t DTNtupleTPGSimAnalyzer::trigPhiInRad(Double_t trigPhi, Int_t sector)
-{
-  return trigPhi / PHIRES_CONV + TMath::Pi() / 6 * (sector - 1);
-}
+

@@ -22,7 +22,7 @@ def main() :
 
   prefixes = "results_"
   suffixes = ".root"
-  legends = ['All','Quality>2','index0','index01','index012','index0123']
+  legends = ['All', 'Quality>2','index0','index01','index012','index0123']
 
   plottingStuff = { 'lowlimityaxis': 0.9,
 		    'highlimityaxis': 1,
@@ -320,7 +320,9 @@ def combineresplots(hlist, legends, plottingStuff, path, savescaffold, fil):
             hlist[0].GetXaxis().ChangeLabel(ilabel, -1, -1, -1, -1, -1, (iwh > 0) * "+" + str(iwh))
             ilabel += 1
 
-   
+    if "ageingLegend" in plottingStuff:
+        o = r.TObject()
+        leg.SetHeader(plottingStuff["ageingLegend"], "C")
     for iplot in range(len(hlist)):
         hlist[iplot].SetMarkerSize(plottingStuff['markersize'])
         # hlist[iplot].SetMarkerStyle(plottingStuff['markertypedir'][hlist[iplot].GetName()])
@@ -329,8 +331,6 @@ def combineresplots(hlist, legends, plottingStuff, path, savescaffold, fil):
         hlist[iplot].SetMarkerColor(plottingStuff['markercolordir'][iplot])
         leg.AddEntry(hlist[iplot], legends[iplot], "P")
         hlist[iplot].Draw("P,hist" + (iplot != 0) * "same")
-
-    leg.Draw()
 
     textlist = []
     linelist = []
@@ -346,17 +346,23 @@ def combineresplots(hlist, legends, plottingStuff, path, savescaffold, fil):
     firsttex = r.TLatex()
     firsttex.SetTextSize(0.03)
     if (plottingStuff['highlimityaxis'] > 1.01) : firsttex.DrawLatexNDC(0.11,0.91,"#scale[1.5]{       CMS} Phase-2 Simulation")
-    else : firsttex.DrawLatexNDC(0.11,0.91,"#scale[1.5]{CMS} Phase-2 Simulation")
+    else : firsttex.DrawLatexNDC(0.11,0.91,"#scale[1.5]{CMS} Phase-2 Simulation #font[12]{Preliminary}")
     firsttex.Draw("same");
 
+    texts = []
+    if plottingStuff["ageingTag"] != "":
+        texts.append(plottingStuff["ageingTag"])
+    texts.append("PU 200")
+  
+    toDisplay = r.TString(", ".join(texts))
     secondtext = r.TLatex()
-    toDisplay = r.TString()
-    if (lookForPU(fil) != -1) : toDisplay  = r.TString("14 TeV, " + str(lookForPU(fil))  +" PU")
-    else : toDisplay  = r.TString("14 TeV")
     secondtext.SetTextSize(0.035)
     secondtext.SetTextAlign(31)
     secondtext.DrawLatexNDC(0.90, 0.91, toDisplay.Data())
+    #secondtext.DrawLatexNDC(0.90, 0.91, toDisplay.Data())
     secondtext.Draw("same")
+
+    leg.Draw()
 
     #c.SetLogy()
     c.SaveAs(path + savescaffold + ".png")
@@ -645,7 +651,6 @@ def combineResolPlots(hlist, mag, quality, legends, plottingStuff, path, savesca
         if legends: leg.AddEntry(hlist[iplot], legends[iplot], "P")
         hlist[iplot].Draw("P,hist" + (iplot != 0) * "same")
 
-    if legends: leg.Draw()
 
     textlist = []
     linelist = []
@@ -661,19 +666,29 @@ def combineResolPlots(hlist, mag, quality, legends, plottingStuff, path, savesca
 
     firsttex = r.TLatex()
     firsttex.SetTextSize(0.03)
-    firsttex.DrawLatexNDC(0.11,0.91,"#scale[1.5]{       CMS} Phase-2 Simulation")
+    firsttex.DrawLatexNDC(0.11,0.91,"#scale[1.5]{CMS} Phase-2 Simulation #font[12]{Preliminary}")
     firsttex.Draw("same");
 
     secondtext = r.TLatex()
     toDisplay = r.TString()
-    if ("PU" in plottingStuff) : toDisplay  = r.TString("14 TeV, " + str(plottingStuff["PU"])  +" PU")
-    else : toDisplay  = r.TString("14 TeV")
+    right_string = ""
+
+    if ("PU" in plottingStuff) : toDisplay  = r.TString(str(plottingStuff["PU"])  +" PU")
+  
+    texts = []
+    if plottingStuff["ageingTag"] != "":
+        texts.append(plottingStuff["ageingTag"])
+    texts.append("PU 200")
+  
+    toDisplay = r.TString(", ".join(texts))
     
-    toDisplay = r.TString("14 TeV, 3000 fb^{-1}, 200 PU") #typically for Phase-2
+    #toDisplay = r.TString("14 TeV, 3000 fb^{-1}, 200 PU") #typically for Phase-2
     secondtext.SetTextSize(0.035)
     secondtext.SetTextAlign(31)
     secondtext.DrawLatexNDC(0.90, 0.91, toDisplay.Data())
     secondtext.Draw("same")
+    
+    if legends: leg.Draw()
     
     r.TGaxis.SetMaxDigits(3)
     r.gPad.Update()

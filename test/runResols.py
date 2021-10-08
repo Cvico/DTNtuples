@@ -29,20 +29,40 @@ files = {'norpc':[], 'rpc':[], 'DM':[]}
 #files['norpc'].append('mu_PU200_noRPC_noAgeing_20210223')
 #files['norpc'].append('mu_PU200_noRPC_noAgeing_20210308')
 #files['norpc'].append('mu_PU200_noRPC_noAgeing_20210315')
-files['norpc'].append('mu_PU200_noRPC_noAgeing_20210315_cmssw')
+#files['norpc'].append('mu_PU200_noRPC_noAgeing_20210315_cmssw')
 #files['norpc'].append('mu_pu200_newest_analyzer')
 #files['norpc'].append('mu_PU200_withRPC_noAgeing')
 #files['norpc'].append('DTDPGNtuple_11_1_0_patch2_Phase2_Simulation_8muInBarrel')
 #files['norpc'].append('mu_PU200_noRPC_noAgeing_3h4h')
 #files['norpc'].append('mu_PU200_noRPC_noAgeing_grouping2')
+#files['norpc'].append('rossin_noRPC_noAgeing_cmssw')
+#files['norpc'].append('rossin_noRPC_withAgeing')
+#files['norpc'].append('rossin_noRPC_noAgeing_11_2_1')
+#files['norpc'].append('rossin_noRPC_noAgeing_newestlut')
+#files['norpc'].append('rossin_noRPC_noAgeing_cmssw')
+#files['norpc'].append('rossin_noRPC_noAgeing_alignTrue')
+#files['norpc'].append('rossin_noRPC_noAgeing_ext_alignTrue')
+files['norpc'].append('rossin_noRPC_noAgeing_ext_confok_alignTrue')
+#files['norpc'].append('rossin_noRPC_noAgeing_noCor_ext_alignTrue')
+#files['norpc'].append('rossin_noRPC_withAgeing_alignTrue')
+#files['norpc'].append('rossin_withRPC_noAgeing_alignTrue')
+#files['norpc'].append('rossin_withRPC_withAgeing_alignTrue')
+#files['norpc'].append('rossin_noRPC_noAgeing_alignFalse')
 
 #qualities = ['']
 qualities = {'norpc':[],'rpc':[], 'DM':[]}
-qualities['norpc'].append('All')
+#qualities['norpc'].append('All')
 qualities['norpc'].append('Correlated')
-qualities['norpc'].append('Legacy')
+qualities['norpc'].append('Uncorrelated')
+#qualities['norpc'].append('Legacy')
 #qualities['norpc'].append('4h')
 #qualities['norpc'].append('3h')
+
+#qualities['norpc'].append('Q1')
+#qualities['norpc'].append('Q2')
+#qualities['norpc'].append('Q3')
+#qualities['norpc'].append('Q4')
+
 
 ##############################################################################################
 
@@ -73,22 +93,25 @@ magnitude = ["Time", "Phi", "PhiB", "TanPsi", "x"]
 plottingStuff = { 'lowlimityaxis': 0,
 		      'highlimityaxis': {},
 		      'markersize': 1,
-              'yaxistitle' : {"Time":"Time resolution (ns)", "Phi":"Global Phi resolution (mrad)", "PhiB":"Bending Phi resolution (mrad)", "TanPsi":"Local direction resolution (mrad)", "x":"Position resolution (cm)"}, 
+              'yaxistitle' : {"Time": "Time resolution (ns)", "Phi": "Global Phi resolution (#murad)", "PhiB": "Bending Phi resolution (mrad)", "TanPsi": "Local direction resolution (mrad)", "x":"Position resolution (#mum)"}, 
 		      'yaxistitleoffset': 1.5,
 		      'xaxistitle': "Wheel",
-		      'legxlow' : 0.7,
-		      'legylow': 0.15,
+		      #'legxlow' : 0.7,
+              'legxlow' : 0.3075 + 1 * 0.1975,
+              #'legxlow' : 0.3075 + 2 * 0.1975,
+		      'legylow': 0.65,
 		      'legxhigh': 0.9,
-		      'legyhigh': 0.25,
+		      'legyhigh': 0.75,
 		      'markertypedir':{},
-		      'markercolordir':{}  
+		      'markercolordir':{},
+              'ageingTag': "",
    		    }
 
-plottingStuff['highlimityaxis']['Time'] = {'3h': 10, '4h': 10, 'All':5, 'Correlated':5, 'Legacy':5}
-plottingStuff['highlimityaxis']['Phi'] = {'3h': 50E-3, '4h':50E-3,'All':50E-3,'Correlated':50E-3, 'Legacy':50E-3}
-plottingStuff['highlimityaxis']['PhiB'] = {'3h': 15,  '4h': 10, 'All':1, 'Correlated':1, 'Legacy':1}
-plottingStuff['highlimityaxis']['TanPsi'] = {'3h': 15, '4h': 10, 'All':1, 'Correlated':1, 'Legacy':1}
-plottingStuff['highlimityaxis']['x'] = {'3h': 0.02, '4h': 0.02, 'All': 0.02, 'Correlated': 0.02, 'Legacy':0.02}
+plottingStuff['highlimityaxis']['Time'] = {'Q1': 10, 'Q2': 10, '3h': 10, '4h': 10, 'Q3': 10, 'Q4': 10, 'All':5, 'Correlated':5, 'Uncorrelated':10, 'Legacy':5}
+plottingStuff['highlimityaxis']['Phi'] = {'Q1': 50, 'Q2': 50, '3h': 50, '4h': 50, 'Q3': 50, 'Q4': 50, 'All':50,'Correlated':50, 'Uncorrelated':50, 'Legacy':50}
+plottingStuff['highlimityaxis']['PhiB'] = {'Q1': 15, 'Q2': 15, '3h': 15, '4h': 10, 'Q3': 10, 'Q4': 10, 'All':5, 'Correlated':5, 'Uncorrelated':20, 'Legacy':5}
+plottingStuff['highlimityaxis']['TanPsi'] = {'Q1': 15, 'Q2': 15, '3h': 15, '4h': 10, 'Q3': 10, 'Q4': 10, 'All':5, 'Correlated':5, 'Uncorrelated':20, 'Legacy':5}
+plottingStuff['highlimityaxis']['x'] = {'Q1': 200, 'Q2': 200, '3h': 200, '4h': 200, 'Q3': 200, 'Q4': 200, 'All': 200, 'Correlated': 200, 'Uncorrelated':200, 'Legacy':200}
 
 markerColors = [r.kBlue, r.kRed, r.kGreen, r.kOrange, r.kBlack, r.kMagenta]
 
@@ -102,8 +125,11 @@ for cat in files :
       analysis = DTNtupleTPGSimAnalyzer(path + fil + '.root', outputPath + 'results_resols_' +fil + '_.root')
       analysis.Loop()
 
-    if my_namespace.ntuples == True or my_namespace.redoPlots == True : 
-      rc = call ('./runPlots.sh ' + fil, shell=True) 
+    ageingTag = ("" if "withAgeing" not in fil else "3000 fb^{-1}")
+    ageingLegend = ("No ageing" if "withAgeing" not in fil else "3000 fb^{-1} ageing")
+
+    if my_namespace.ntuples == True or my_namespace.redoPlots == True: 
+      rc = call ('./runPlots.sh ' + fil + " " + ageingLegend, shell=True) 
     
     
     for mag in magnitude :
@@ -115,7 +141,10 @@ for cat in files :
         plottingStuff['markertypedir']["h_" + "AM" + "_" + fil+qual] = 20
         plottingStuff['markercolordir']["h_" + "AM" + "_" + fil+qual] = markerColors[0]
         effplot.makeResolPlot(listofplots, "AM", fil+qual, plotsPath + fil + '/' +  'outPlots.root', plotscaffold)
-
+        #if "withAgeing" in fil:
+        #    plottingStuff['ageingTag'] = "3000 fb^{-1}"
+        #else:
+        #    plottingStuff['ageingTag'] = ""
         print "\nCombining and saving\n"
         effplot.combineResolPlots(listofplots, mag, qual, [], plottingStuff, plotsPath + fil + '/' + qual  + '/', savescaffold.format(al='AM') )
            
@@ -153,17 +182,21 @@ for cat in files :
             listofplots = []
             mylegends = []
             num = 0
+            plottingStuff['ageingTag'] = ""
             for fil in files[cat]:
                 plotscaffold = "h" + mag + "Res_{al}_" + qual + "_{wh}"
                 savescaffold = "h" + mag + "Res_{al}_" + qual 
 
                 plottingStuff['markertypedir']["h_" + "AM" + "_" + fil+qual] = 20
                 plottingStuff['markercolordir']["h_" + "AM" + "_" + fil+qual] = markerColors[num]
+                #if "withAgeing" in fil:
+                    #plottingStuff['ageingTag'] = "3000 fb^{-1}"
                 num+=1
                 effplot.makeResolPlot(listofplots, "AM", fil+qual, plotsPath + fil + '/' +  'outPlots.root', plotscaffold)
                 print legends[fil]
                 mylegends.append(legends[fil]) 
-
+            print listofplots
+            print [plot.Integral() for plot in listofplots]
             print "\nCombining and saving\n"
             effplot.combineResolPlots(listofplots, mag, qual, mylegends, plottingStuff, dirname, savescaffold.format(al='AM') )
 

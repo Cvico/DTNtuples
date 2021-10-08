@@ -1,10 +1,6 @@
 #include "DTNtupleTPGSimAnalyzer.h"
 #include "TVector2.h"
 #include "TF1.h"
-// DT AM Emulator constants
-#include "L1Trigger/DTTriggerPhase2/interface/constants.h"
-
-using namespace cmsdt;
 
 
 
@@ -84,7 +80,7 @@ void DTNtupleTPGSimAnalyzer::book()
 {
  m_outFile.cd();
  
- std::vector<std::string> algoTag  = {"AM", "AM+RPC"};
+ std::vector<std::string> algoTag  = {"AM", "AM+RPC", "Ph1"};
  std::vector<std::string> totalTag = {"matched", "total"};
  std::vector<std::string> chambTag = {"MB1",     "MB2", "MB3", "MB4"};
  std::vector<std::string> wheelTag = {"Wh.-2","Wh.-1","Wh.0","Wh.+1","Wh.+2",};
@@ -227,6 +223,7 @@ void DTNtupleTPGSimAnalyzer::fill()
   // HIGHHIGHQ 8 -> 4+4
   
   int minQuality = -99;
+  int minQualityPh1 = -99;
   int maxIndex = 9999;
   bool qualityMatched = false;
   bool qualityORSegs = false;
@@ -240,31 +237,33 @@ void DTNtupleTPGSimAnalyzer::fill()
    minQuality = CLOWQ;
   } 
   else if (quality_ == "index0")
-  maxIndex = 0;
+    maxIndex = 0;
   else if (quality_ == "index01")
-  maxIndex = 1;
+    maxIndex = 1;
   else if (quality_ == "index012")
-  maxIndex = 2;
+    maxIndex = 2;
   else if (quality_ == "index0123")
-  maxIndex = 3;
+    maxIndex = 3;
   else if (quality_ == "withmatchedthreehits")
-  qualityMatched = true;  
+    qualityMatched = true;  
   else if (quality_ == "qualityORSegs")
-  qualityORSegs = true;  
+    qualityORSegs = true;  
   else if (quality_ == "qualityORSegsClus")
-  qualityORSegsClus = true;  
+    qualityORSegsClus = true;  
   else if (quality_ == "qualityMatchedORSegs")
-  qualityMatchedORSegs = true;  
+    qualityMatchedORSegs = true;  
   else if (quality_ == "qualityMatchedORSegsClus")
-  qualityMatchedORSegsClus = true;  
+    qualityMatchedORSegsClus = true;  
   else if (quality_ == "correlated")
-  qualityCorrelated = true;  
+    qualityCorrelated = true;
   else if (quality_ == "legacy")
-  qualityLegacy = true;
-  else if (quality_ == "Q8" ) 
-  minQuality = HIGHHIGHQ;
+    qualityLegacy = true;
+  else if (quality_ == "Q8" ){
+    minQuality = HIGHHIGHQ;
+    minQualityPh1 = 6;
+  }
   else if (quality_ == "All" ) 
-  minQuality = -999;
+    minQuality = -999;
   else {
    cout << "Error: Efficiency category not found" << endl;
    //  std::exit(EXIT_FAILURE);
@@ -301,6 +300,74 @@ void DTNtupleTPGSimAnalyzer::fill()
    std::string chambTag = chambTags.at(segSt - 1);
    std::string whTag    = whTags.at(segWh + 2);
    std::string secTag   = secTags.at(segSec - 1);
+   
+   // ==================== VARIABLES FOR THE PHASE I ALGORITHM
+   Int_t    bestTPPh1 = -1;
+   Int_t    bestTPNoBXPh1 = -1;
+   Double_t bestSegTrigPh1DPhi = 1000;
+   Double_t bestSegTrigPh1DPhiNoBX = 1000;
+   Double_t bestPh1DPhi = 0;
+   Int_t    besttrigPh1BX = 0;
+   for (std::size_t iTrigPh1 = 0; iTrigPh1 < ltTwinMuxOut_nTrigs; ++iTrigPh1)
+   {
+    Int_t trigPh1Wh  = ltTwinMuxOut_wheel->at(iTrigPh1);
+    Int_t trigPh1Sec = ltTwinMuxOut_sector->at(iTrigPh1);
+    Int_t trigPh1St  = ltTwinMuxOut_station->at(iTrigPh1);
+    Int_t trigPh1BX  = ltTwinMuxOut_BX->at(iTrigPh1);
+    Int_t trigPh1qual  = ltTwinMuxOut_quality->at(iTrigPh1);
+    
+    
+    if (segWh == trigPh1Wh && segSec == trigPh1Sec && segSt  == trigPh1St)
+    {
+      Double_t trigGlbPhi    = trigPhiInRadPh1(ltTwinMuxOut_phi->at(iTrigPh1), trigPh1Sec);
+      Double_t finalPh1DPhi   = seg_posGlb_phi->at(iSeg) - trigGlbPhi;
+      Double_t segTrigPh1DPhi = abs(acos(cos(finalPh1DPhi)));
+
+      if (qualityCorrelated && (trigPh1qual < 4)) continue;
+      
+      //if ((segTrigAMDPhi < m_maxSegTrigDPhi) && (bestSegTrigAMDPhi > segTrigAMDPhi) && (ph2TpgPhiEmuAm_quality->at(iTrigAM) >= minQuality))
+      if ((segTrigPh1DPhi < m_maxSegTrigDPhi) && (trigPh1BX == 0) && (bestSegTrigPh1DPhi > segTrigPh1DPhi) && (trigPh1qual >= minQualityPh1))
+      {
+       bestTPPh1          = iTrigPh1;
+       besttrigPh1BX      = trigPh1BX;
+       bestSegTrigPh1DPhi = segTrigPh1DPhi;
+       bestPh1DPhi        = TVector2::Phi_mpi_pi(finalPh1DPhi);
+      }
+      if ((segTrigPh1DPhi < m_maxSegTrigDPhi ) && (bestSegTrigPh1DPhiNoBX > segTrigPh1DPhi) && (trigPh1qual >= minQualityPh1))
+      {
+       bestTPNoBXPh1          = iTrigPh1;
+       bestSegTrigPh1DPhiNoBX = segTrigPh1DPhi;
+      }
+      
+    }
+    
+   }
+   
+   if (bestTPPh1 > -1 && seg_phi_t0->at(iSeg) > -500)
+   {
+     m_plots["Eff_" + chambTag + "_Ph1_matched"]->Fill(segWh);
+     m_plots["EffEta_" + chambTag + "_Ph1_matched"]->Fill(gen_eta->at(iGenPart));
+     m_plots["hEffvsSlopePh1" + chambTag + whTag + "matched"] -> Fill(atan ( (seg_dirLoc_x->at(iSeg) / seg_dirLoc_z->at(iSeg)) ) * 360 / (2*TMath::Pi()) );
+     if (DM_) m_plots["hEffvsLxyPh1" + chambTag + whTag + "matched"] -> Fill( gen_lxy->at(iGenPart) );
+     if (DM_) m_plots["hEffvsLxyPh1matched"] -> Fill( gen_lxy->at(iGenPart) );
+     m_plots["hEffvsSlopePh1matched"] -> Fill(atan ( (seg_dirLoc_x->at(iSeg) / seg_dirLoc_z->at(iSeg)) ) * 360 / (2*TMath::Pi()) );
+   } 
+   if (bestTPNoBXPh1 > -1 && seg_phi_t0->at(iSeg) > -500)
+   {
+    m_plots["EffNoBX_" + chambTag + "_Ph1_matched"]->Fill(segWh);
+   }
+   
+   if (seg_phi_t0->at(iSeg) > -500)
+   {
+    m_plots["Eff_" + chambTag + "_Ph1_total"]->Fill(segWh);
+    m_plots["EffNoBX_" + chambTag + "_Ph1_total"]->Fill(segWh);
+    m_plots["EffEta_" + chambTag + "_Ph1_total"]->Fill(gen_eta->at(iGenPart));
+    m_plots["hEffvsSlopePh1" + chambTag + whTag + "total"] -> Fill(atan ( (seg_dirLoc_x->at(iSeg) / seg_dirLoc_z->at(iSeg)) ) * 360 / (2*TMath::Pi()) );
+    m_plots["hEffvsSlopePh1total"] -> Fill(atan ( (seg_dirLoc_x->at(iSeg) / seg_dirLoc_z->at(iSeg)) ) * 360 / (2*TMath::Pi()) );
+    if (DM_) m_plots["hEffvsLxyPh1" + chambTag + whTag + "total"] -> Fill( gen_lxy->at(iGenPart) );
+    if (DM_) m_plots["hEffvsLxyPh1total"] -> Fill( gen_lxy->at(iGenPart) );
+   }
+   
    
    // ==================== VARIABLES FOR THE ANALYTICAL METHOD ALGORITHM
    Int_t    bestTPAM = -1;
@@ -484,10 +551,15 @@ void DTNtupleTPGSimAnalyzer::printPh2Hits ()
  }
 }
 
-Double_t DTNtupleTPGSimAnalyzer::trigPhiInRad(Double_t trigPhi, Int_t sector)
-{
- return trigPhi / PHIRES_CONV + TMath::Pi() / 6 * (sector - 1);
-}
+// Double_t DTNtupleTPGSimAnalyzer::trigPhiInRad(Double_t trigPhi, Int_t sector)
+// {
+ // return trigPhi / PHIRES_CONV + TMath::Pi() / 6 * (sector - 1);
+// }
+
+// Double_t DTNtupleTPGSimAnalyzer::trigPhiInRadPh1(Double_t trigPhi, Int_t sector)
+// {
+ // return trigPhi / 4096. + TMath::Pi() / 6 * (sector - 1);
+// }
 
 int DTNtupleTPGSimAnalyzer::getPh1Hits (int wh, int se, int st) 
 {

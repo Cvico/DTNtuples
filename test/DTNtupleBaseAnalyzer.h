@@ -251,8 +251,11 @@ public :
    vector<short>   *ph2TpgPhiEmuAm_rpcFlag;
    vector<int>     *ph2TpgPhiEmuAm_chi2;
    vector<int>     *ph2TpgPhiEmuAm_phi;
+   vector<int>     *ph2TpgPhiEmuAm_phiCMSSW;
    vector<int>     *ph2TpgPhiEmuAm_phiB;
+   vector<int>     *ph2TpgPhiEmuAm_phiBCMSSW;
    vector<float>   *ph2TpgPhiEmuAm_posLoc_x;
+   vector<float>   *ph2TpgPhiEmuAm_posLoc_x_raw;
    vector<float>   *ph2TpgPhiEmuAm_dirLoc_phi;
    vector<int>     *ph2TpgPhiEmuAm_BX;
    vector<int>     *ph2TpgPhiEmuAm_t0;
@@ -484,8 +487,11 @@ public :
    TBranch        *b_ph2TpgPhiEmuAm_rpcFlag;   //!
    TBranch        *b_ph2TpgPhiEmuAm_chi2;   //!
    TBranch        *b_ph2TpgPhiEmuAm_phi;   //!
+   TBranch        *b_ph2TpgPhiEmuAm_phiCMSSW;   //!
    TBranch        *b_ph2TpgPhiEmuAm_phiB;   //!
+   TBranch        *b_ph2TpgPhiEmuAm_phiBCMSSW;   //!
    TBranch        *b_ph2TpgPhiEmuAm_posLoc_x;   //!
+   TBranch        *b_ph2TpgPhiEmuAm_posLoc_x_raw;   //!
    TBranch        *b_ph2TpgPhiEmuAm_dirLoc_phi;   //!
    TBranch        *b_ph2TpgPhiEmuAm_BX;   //!
    TBranch        *b_ph2TpgPhiEmuAm_t0;   //!

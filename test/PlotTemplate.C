@@ -36,7 +36,7 @@ void DrawPrelimLabel(TCanvas* c)
 
   TLatex tex;
   tex.SetTextSize(0.03);
-  tex.DrawLatexNDC(0.11,0.91,"#scale[1.5]{CMS} Phase-2 Simulation");//typically for Phase-2
+  tex.DrawLatexNDC(0.11,0.91,"#scale[1.5]{CMS} Phase-2 Simulation #font[12]{Preliminary}");//typically for Phase-2
   // tex.DrawLatexNDC(0.11,0.91,"#scale[1.5]{CMS}, DT SliceTest");//typically for Phase-2
   // tex.DrawLatexNDC(0.11,0.91,"#scale[1.5]{CMS}");//typically for Phase-1
   tex.Draw("same");
@@ -44,14 +44,16 @@ void DrawPrelimLabel(TCanvas* c)
   return;
 }
 
-void DrawLumiLabel(TCanvas* c, TString Lumi = "35.9")
+void DrawLumiLabel(TCanvas* c, TString ageingTag = "")
 {
   c->cd();
 
   TLatex tex;
   tex.SetTextSize(0.035);
   tex.SetTextAlign(31);
-  TString toDisplay = "14 TeV, 3000 fb^{-1}, 200 PU";//typically for Phase-2
+  TString text = ageingTag;
+  if (text != "" && text != " ") text = text + ", ";
+  TString toDisplay = text + "PU 200";//typically for Phase-2
   //TString toDisplay = "Cosmics";//typically for Phase-2
   //TString toDisplay = Lumi + " fb^{-1} (13 TeV)";//typically for Phase-1
   tex.DrawLatexNDC(0.90,0.91,toDisplay.Data());
