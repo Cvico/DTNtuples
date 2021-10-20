@@ -16,6 +16,11 @@
 #include <sstream>
 #include <map>
 
+// DT AM Emulator constants
+#include "L1Trigger/DTTriggerPhase2/interface/constants.h"
+
+using namespace cmsdt;
+
 class DTNtupleTPGSimAnalyzer : public DTNtupleBaseAnalyzer 
 {
   
@@ -42,7 +47,14 @@ protected:
 
 private:
   
-  Double_t trigPhiInRad(Double_t trigPhi, Int_t sector);
+  Double_t trigPhiInRad(Double_t trigPhi, Int_t sector)
+  {
+   return trigPhi / PHIRES_CONV + TMath::Pi() / 6 * (sector - 1);
+  }
+  Double_t trigPhiInRadPh1(Double_t trigPhi, Int_t sector)
+  {
+   return trigPhi / 4096. + TMath::Pi() / 6 * (sector - 1);
+  }
   void printMPs(int);
   void printSeg(int);
   void printHits();

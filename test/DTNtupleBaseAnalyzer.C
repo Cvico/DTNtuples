@@ -249,8 +249,11 @@ void DTNtupleBaseAnalyzer::Init(TTree *tree)
    ph2TpgPhiEmuAm_rpcFlag = 0;
    ph2TpgPhiEmuAm_chi2 = 0;
    ph2TpgPhiEmuAm_phi = 0;
+   ph2TpgPhiEmuAm_phiCMSSW = 0;
    ph2TpgPhiEmuAm_phiB = 0;
+   ph2TpgPhiEmuAm_phiBCMSSW = 0;
    ph2TpgPhiEmuAm_posLoc_x = 0;
+   ph2TpgPhiEmuAm_posLoc_x_raw = 0;
    ph2TpgPhiEmuAm_dirLoc_phi = 0;
    ph2TpgPhiEmuAm_BX = 0;
    ph2TpgPhiEmuAm_t0 = 0;
@@ -487,8 +490,14 @@ void DTNtupleBaseAnalyzer::Init(TTree *tree)
    fChain->SetBranchAddress("ph2TpgPhiEmuAm_rpcFlag", &ph2TpgPhiEmuAm_rpcFlag, &b_ph2TpgPhiEmuAm_rpcFlag);
    fChain->SetBranchAddress("ph2TpgPhiEmuAm_chi2", &ph2TpgPhiEmuAm_chi2, &b_ph2TpgPhiEmuAm_chi2);
    fChain->SetBranchAddress("ph2TpgPhiEmuAm_phi", &ph2TpgPhiEmuAm_phi, &b_ph2TpgPhiEmuAm_phi);
+   if (fChain->GetListOfBranches()->FindObject("ph2TpgPhiEmuAm_phiCMSSW"))
+     fChain->SetBranchAddress("ph2TpgPhiEmuAm_phiCMSSW", &ph2TpgPhiEmuAm_phiCMSSW, &b_ph2TpgPhiEmuAm_phiCMSSW);
    fChain->SetBranchAddress("ph2TpgPhiEmuAm_phiB", &ph2TpgPhiEmuAm_phiB, &b_ph2TpgPhiEmuAm_phiB);
+   if (fChain->GetListOfBranches()->FindObject("ph2TpgPhiEmuAm_phiBCMSSW"))
+     fChain->SetBranchAddress("ph2TpgPhiEmuAm_phiBCMSSW", &ph2TpgPhiEmuAm_phiBCMSSW, &b_ph2TpgPhiEmuAm_phiBCMSSW);
    fChain->SetBranchAddress("ph2TpgPhiEmuAm_posLoc_x", &ph2TpgPhiEmuAm_posLoc_x, &b_ph2TpgPhiEmuAm_posLoc_x);
+   if (fChain->GetListOfBranches()->FindObject("ph2TpgPhiEmuAm_posLoc_x_raw"))
+      fChain->SetBranchAddress("ph2TpgPhiEmuAm_posLoc_x_raw", &ph2TpgPhiEmuAm_posLoc_x_raw, &b_ph2TpgPhiEmuAm_posLoc_x_raw);
    fChain->SetBranchAddress("ph2TpgPhiEmuAm_dirLoc_phi", &ph2TpgPhiEmuAm_dirLoc_phi, &b_ph2TpgPhiEmuAm_dirLoc_phi);
    fChain->SetBranchAddress("ph2TpgPhiEmuAm_BX", &ph2TpgPhiEmuAm_BX, &b_ph2TpgPhiEmuAm_BX);
    fChain->SetBranchAddress("ph2TpgPhiEmuAm_t0", &ph2TpgPhiEmuAm_t0, &b_ph2TpgPhiEmuAm_t0);
