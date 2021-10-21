@@ -231,6 +231,7 @@ void DTNtupleTPGSimAnalyzer::fill()
   bool qualityMatchedORSegs = false;
   bool qualityMatchedORSegsClus = false;
   bool qualityCorrelated = false;
+  bool qualityConfirmed = false;
   bool qualityLegacy = false;
   
   if (quality_ == "nothreehits"){
@@ -254,6 +255,8 @@ void DTNtupleTPGSimAnalyzer::fill()
     qualityMatchedORSegs = true;  
   else if (quality_ == "qualityMatchedORSegsClus")
     qualityMatchedORSegsClus = true;  
+  else if (quality_ == "confirmed")
+    qualityConfirmed = true;  
   else if (quality_ == "correlated")
     qualityCorrelated = true;
   else if (quality_ == "legacy")
@@ -423,6 +426,7 @@ void DTNtupleTPGSimAnalyzer::fill()
      if (qualityMatchedORSegs && ( ( (trigAMqual < LOWQ && trigAMrpc==0 ) && trigAMqual > -1) || ( trigAMqual ==-1 && trigAMrpc!=2 ) )) continue;
      if (qualityMatchedORSegsClus && ( ( (trigAMqual < LOWQ && trigAMrpc==0 ) && trigAMqual > -1) )) continue;
      if (qualityCorrelated && (trigAMqual < LOWLOWQ)) continue;
+     if (qualityConfirmed && (trigAMqual < LOWLOWQ && (trigAMqual != CLOWQ && trigAMqual != CHIGHQ))) continue;
      if (qualityLegacy && (trigAMqual < HIGHQ)) continue;
      
      //if ((segTrigAMDPhi < m_maxSegTrigDPhi) && (bestSegTrigAMDPhi > segTrigAMDPhi) && (ph2TpgPhiEmuAm_quality->at(iTrigAM) >= minQuality))

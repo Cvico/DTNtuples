@@ -19,25 +19,9 @@ my_namespace = parser.parse_args()
 
 categories = ['norpc', 'rpc']
 files = {'norpc':[], 'rpc':[], 'DM':[]}
-#files['DM'].append('DMAlberto')
-#files['DM'].append('DMAlberto_20')
-#files['DM'].append('DMAlberto_200')
-#files['norpc'].append('mu_pu0')
-#files['norpc'].append('mu_pu200')
-#files['norpc'].append('mu_PU200_60grad')
-#files['norpc'].append('mu_PU200_noRPC_noAgeing_grouping2')
-#files['norpc'].append('mu_PU200_noRPC_noAgeing_dev')
-#files['norpc'].append('mu_PU200_noRPC_noAgeing_111X_1_0')
-# files['norpc'].append('mu_pu200_newest_analyzer')
-#files['norpc'].append('mu_pu200_newest_analyzer_387')
-#files['norpc'].append('mu_PU200_noRPC_noAgeing_20210223')
-#files['norpc'].append('mu_PU200_noRPC_noAgeing_20210308')
-#files['norpc'].append('mu_PU200_noRPC_noAgeing_20210315')
-#files['norpc'].append('mu_PU200_noRPC_noAgeing_newAnalyzer260521')
-#files['norpc'].append('mu_PU200_noRPC_withAgeing_ext')
-files['norpc'].append('rossin_noRPC_noAgeing_ext_confok_alignTrue')
-# files['norpc'].append('rossin_noRPC_withAgeing_alignTrue')
 
+#files['norpc'].append('DTDPGNtuple_11_1_0_Phase2_Simulation_AM_100000evts_fixConf')
+files['norpc'].append('DTDPGNtuple_11_1_0_Phase2_Simulation_Bayes_100000evts')
 
 algos = ["AM", "Ph1"]
 
@@ -53,7 +37,8 @@ algos = ["AM", "Ph1"]
 '''
 Possible efficiency categories:
     - 'All' -> Every quality
-    - 'correlated' -> Qualities 6, 7 and 6
+    - 'correlated' -> Qualities 6, 7 and 8
+    - 'confirmed' -> Qualities 2, 4, 6, 7, and 8
     - '8' -> Quality 8 only
     - 'legacy' -> Qualities 3, 4, 6, 7 and 8
     - 'nothreehits -> Quality > 1
@@ -70,7 +55,7 @@ Possible efficiency categories:
     - 'qualityMatchedORSegsClus' -> Quality > 1 + quality <= 1 matched with an RPC cluster or segment + RPC segments and clusters
 '''
 
-possibleQualities = ['All','correlated', 'Q8', 'legacy', 'index0', 'index01', 'index012', 'index0123', 'nothreehits', 'withmatchedthreehits' ,'qualityORSegs','qualityORSegsClus','qualityMatchedORSegs','qualityMatchedORSegsClus']
+possibleQualities = ['All','correlated', 'Q8', 'legacy', 'index0', 'index01', 'index012', 'index0123', 'nothreehits', 'withmatchedthreehits' ,'qualityORSegs','qualityORSegsClus','qualityMatchedORSegs','qualityMatchedORSegsClus','confirmed']
 
 
 
@@ -81,7 +66,7 @@ qualities = {'norpc':[],'rpc':[], 'DM':[]}
 #qualities['norpc'] = ['index0', 'index01', 'index012', 'index0123', 'All']
 #qualities['norpc'] = ['All','nothreehits','legacy', 'correlated']
 #qualities['norpc'] = ['All']
-qualities['norpc'] = ['All','correlated', 'Q8', 'nothreehits']
+qualities['norpc'] = ['All','correlated', 'Q8', 'nothreehits', 'confirmed']
 #qualities['norpc'] = ['Q8', 'nothreehits']
 #qualities['norpc'] = ['All','nothreehits']
 #qualities['norpc'] = ['legacy']
@@ -105,10 +90,12 @@ else :
   print("Not making ntuples. If you want to make them, restart with 'yes' as first argument ")
   time.sleep(2)
 
-path = '/eos/home-j/jleonhol/simulationSamples/'
-effPath = "./plotsEff/"
-#outputPath = './ntuples/'
-outputPath = '/eos/home-j/jleonhol/ntuplesResults/'
+# Input path
+path = "/eos/user/n/ntrevisa/DT/DTDPGNtuples/" 
+
+# Output paths
+effPath    = "/eos/user/n/ntrevisa/DT/DT_plots/plotsEff/"
+outputPath = "/eos/user/n/ntrevisa/DT/DT_plots/"
 
 if not os.path.isdir(effPath) : rc = call('mkdir ' + effPath, shell=True)
 

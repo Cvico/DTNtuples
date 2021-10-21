@@ -21,26 +21,12 @@ my_namespace = parser.parse_args()
 
 categories = ['norpc', 'rpc']
 files = {'norpc':[], 'rpc':[], 'DM':[]}
-#files['norpc'].append('nopu_noage_norpc')
-#files['norpc'].append('mu_pu200_noage_norpc')
-#files['norpc'].append('mu_PU200_withRPC_noAgeing_grouping2')
-#files['norpc'].append('DTDPGNtuple_11_1_0_patch2_Phase2_Simulation_8muInBarrel')
-#files['norpc'].append('DTDPGNtuple_11_1_0_patch2_Phase2_Simulation_8muInBarrel_woRPC')
-files['norpc'].append('nu_PU250_noRPC_noAgeing_bkg9E34_debug')
-files['norpc'].append('nu_PU250_noRPC_noAgeing_bkg9E34_20210223')
-#files['norpc'].append('nu_pu250_noage_norpc')
-#files['norpc'].append('nu_pu250_age_norpc_youngseg_muonage_norpcage_fail_3000')
-#files['rpc'].append('nu_pu250_noage_withrpc')
-#files['rpc'].append('nu_pu250_age_withrpc_youngseg_muonage_norpcage_fail_3000')
 
-#files['norpc'].append('PU200_nu_bkg7p5') 
-#files['norpc'].append('PU250_nu_bkg9') 
-#files['norpc'].append('PU200_nu_bkg7p5') 
-#files['norpc'].append('nu_pu250_noage_norpc')
-#files['norpc'].append('nu_pu250_age_norpc_youngseg_muonage_norpcage_fail_3000')
-#files['norpc'].append('PU0_bkgHits')
-#files['norpc'].append('PU200_bkgHits')
-#files['rpc'].append('pu200_age_withrpc_youngseg_muonage_norpcage_fail_3000')
+files['norpc'].append('nu_PU250_noRPC_noAgeing_rateNtuple_bkg9E34_AM')
+files['norpc'].append('nu_PU250_noRPC_noAgeing_rateNtuple_bkg9E34_Bayes')
+# files['norpc'].append('nu_PU250_noRPC_noAgeing_rateNtuple_bkg9E34_Bayes_filter')
+# files['norpc'].append('nu_PU250_noRPC_noAgeing_rateNtuple_bkg9E34_Bayes_filterKeepChi2')
+files['norpc'].append('nu_PU250_noRPC_noAgeing_rateNtuple_bkg9E34_Bayes_filterKeepChi2_BX')
 
 r.gROOT.ForceStyle()
 r.TGaxis.SetMaxDigits( 2 )
@@ -63,7 +49,7 @@ qualities['rpc'] = ["GoodBX","GoodBX+qu>=3","GoodBX+matchedqu<3", "GoodBX+qu>=3+
 
 
 plottingStuff = { 'lowlimityaxis' : 0,
-		        'ranges' : {},
+                  'ranges' : {},
 	          'markersize': 1,
 	          'yaxistitleoffset': 1.5,
 	          'xaxistitle': "Wheel",
@@ -74,9 +60,15 @@ plottingStuff = { 'lowlimityaxis' : 0,
 	          'markertypedir':{},
 	          'markercolordir':{}, 
 	          'highLimitYAxis_perSector':{},  
-              'PU':{}
+                  'PU':{}
    	          } 
 #plottingStuff['ranges'] = {"rates":[60E6,10E6,10E6,10E6,10E6,10E6,50E6,10E6], "bandwidths":[60E8,10E8,10E8,10E8,10E8,10E8,50E8,10E8] }
+plottingStuff['ranges']['nu_PU250_noRPC_noAgeing_rateNtuple_bkg9E34_AM'] = {"rates":[15E5,15E5,15E5,15E5,15E5,15E5], "bandwidths":[1E8,1E8,1E8,1E8,1E8,1E8] }
+plottingStuff['ranges']['nu_PU250_noRPC_noAgeing_rateNtuple_bkg9E34_Bayes'] = {"rates":[15E5,15E5,15E5,15E5,15E5,15E5], "bandwidths":[1E8,1E8,1E8,1E8,1E8,1E8] }
+plottingStuff['ranges']['nu_PU250_noRPC_noAgeing_rateNtuple_bkg9E34_Bayes_filter'] = {"rates":[15E5,15E5,15E5,15E5,15E5,15E5], "bandwidths":[1E8,1E8,1E8,1E8,1E8,1E8] }
+plottingStuff['ranges']['nu_PU250_noRPC_noAgeing_rateNtuple_bkg9E34_Bayes_filterKeepChi2'] = {"rates":[15E5,15E5,15E5,15E5,15E5,15E5], "bandwidths":[1E8,1E8,1E8,1E8,1E8,1E8] }
+plottingStuff['ranges']['nu_PU250_noRPC_noAgeing_rateNtuple_bkg9E34_Bayes_filterKeepChi2_BX'] = {"rates":[15E5,15E5,15E5,15E5,15E5,15E5], "bandwidths":[1E8,1E8,1E8,1E8,1E8,1E8] }
+
 plottingStuff['ranges']['nu_pu250_noage_norpc'] = {"rates":[15E5,15E5,15E5,15E5,15E5,15E5], "bandwidths":[1E8,1E8,1E8,1E8,1E8,1E8] }
 plottingStuff['ranges']['nu_PU250_noRPC_noAgeing_bkg9E34_newestAnalyzer'] = {"rates":[15E5,15E5,15E5,15E5,15E5,15E5], "bandwidths":[1E8,1E8,1E8,1E8,1E8,1E8] }
 plottingStuff['ranges']['nu_PU250_noRPC_noAgeing_bkg9E34_debug'] = {"rates":[15E5,15E5,15E5,15E5,15E5,15E5], "bandwidths":[1E8,1E8,1E8,1E8,1E8,1E8] }
@@ -95,6 +87,12 @@ plottingStuff['ranges']['DTDPGNtuple_11_1_0_patch2_Phase2_Simulation_8muInBarrel
 
 
 plottingStuff['highLimitYAxis_perSector']['default'] = 200E6;  
+plottingStuff['highLimitYAxis_perSector']['nu_PU250_noRPC_noAgeing_rateNtuple_bkg9E34_AM'] = 200E6;  
+plottingStuff['highLimitYAxis_perSector']['nu_PU250_noRPC_noAgeing_rateNtuple_bkg9E34_Bayes'] = 200E6;  
+plottingStuff['highLimitYAxis_perSector']['nu_PU250_noRPC_noAgeing_rateNtuple_bkg9E34_Bayes_filter'] = 200E6;  
+plottingStuff['highLimitYAxis_perSector']['nu_PU250_noRPC_noAgeing_rateNtuple_bkg9E34_Bayes_filterKeepChi2'] = 200E6;  
+plottingStuff['highLimitYAxis_perSector']['nu_PU250_noRPC_noAgeing_rateNtuple_bkg9E34_Bayes_filterKeepChi2_BX'] = 200E6;  
+
 plottingStuff['highLimitYAxis_perSector']['nu_pu250_noage_norpc'] = 200E6;  
 plottingStuff['highLimitYAxis_perSector']['nu_PU250_noRPC_noAgeing_bkg9E34_newestAnalyzer'] = 200E6;  
 plottingStuff['highLimitYAxis_perSector']['nu_PU250_noRPC_noAgeing_bkg9E34_debug'] = 200E6;  
@@ -127,6 +125,12 @@ plottingStuffRat = { 'lowlimityaxis' : {},
                'PU':{}
    	           }   
 plottingStuffRat['lowlimityaxis']['default'] = [0,0,0,0,0]
+plottingStuffRat['lowlimityaxis']['nu_PU250_noRPC_noAgeing_rateNtuple_bkg9E34_AM'] = [0,0,0,0,0]
+plottingStuffRat['lowlimityaxis']['nu_PU250_noRPC_noAgeing_rateNtuple_bkg9E34_Bayes'] = [0,0,0,0,0]
+plottingStuffRat['lowlimityaxis']['nu_PU250_noRPC_noAgeing_rateNtuple_bkg9E34_Bayes_filter'] = [0,0,0,0,0]
+plottingStuffRat['lowlimityaxis']['nu_PU250_noRPC_noAgeing_rateNtuple_bkg9E34_Bayes_filterKeepChi2'] = [0,0,0,0,0]
+plottingStuffRat['lowlimityaxis']['nu_PU250_noRPC_noAgeing_rateNtuple_bkg9E34_Bayes_filterKeepChi2_BX'] = [0,0,0,0,0]
+
 plottingStuffRat['lowlimityaxis']['nu_pu250_noage_norpc'] = [0,0,0,0,0]
 plottingStuffRat['lowlimityaxis']['nu_PU250_noRPC_noAgeing_bkg9E34_newestAnalyzer'] = [0,0,0,0,0]
 plottingStuffRat['lowlimityaxis']['nu_PU250_noRPC_noAgeing_bkg9E34_debug'] = [0,0,0,0,0]
@@ -165,10 +169,14 @@ else :
   print("Not making ntuples. If you want to make them, restart with 'yes' as first argument ")
   time.sleep(2)
 
-path = '/eos/home-j/jleonhol/simulationSamples/'
-ratePath = "./plotsRates/"
-#outputPath = './ntuples/'
-outputPath = '/eos/home-j/jleonhol/ntuplesResults/'
+# Input path
+path = '/eos/user/n/ntrevisa/DT/DTDPGNtuples/'
+
+# Output paths
+ratePath   = "/eos/user/n/ntrevisa/DT/DT_plots/plotsRates/"
+outputPath = '/eos/user/n/ntrevisa/DT/DT_plots/'
+
+
 plotscaffold = { "rates": "ratePrims_{al}_{wh}_{se}_{st}", "bandwidths": "bandwidth_{al}_{wh}_{se}_{st}" }
 savescaffold = { "rates": "hRates", "bandwidths": "hBandwidths" }
 savescaffoldTot = { "rates": "hRatesTot", "bandwidths": "hBandwidthsTot" }
