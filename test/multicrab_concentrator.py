@@ -4,15 +4,15 @@
 # source /cvmfs/cms.cern.ch/common/crab-setup.sh dev
 # python3 multicrab.py
 
-name = 'ZtoMuMu_Run3sample'  #Part of the name of your output directory, adapt as needed.  
-running_options = ["nEvents=1000"]
+name = 'ZtoMuMu_Phase2sample'  #Part of the name of your output directory, adapt as needed.  
+running_options = []
 runATCAF = False
 
 
 # Dictionary to store metadata
 dataset = {
-   # Z -> mumu prompt muons
-   "ZprimeToMuMu_M-6000_TuneCP5_14TeV-pythia8" : "/ZprimeToMuMu_M-6000_TuneCP5_14TeV-pythia8/Run3Summer21DRPremix-120X_mcRun3_2021_realistic_v6-v2/GEN-SIM-DIGI-RAW",
+   # Zprime -> mumu prompt muons
+   "ZprimeToMuMu_M-6000_TuneCP5_14TeV-pythia8" : "/ZprimeToMuMu_M-6000_TuneCP5_14TeV-pythia8/Phase2Fall22DRMiniAOD-PU200_125X_mcRun4_realistic_v2-v1/GEN-SIM-DIGI-RAW-MINIAOD",
 }
 
 # Samples to run (these are keys in the above dictionary)
