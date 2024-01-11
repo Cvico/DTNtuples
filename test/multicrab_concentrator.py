@@ -12,15 +12,15 @@ runATCAF = False
 # Dictionary to store metadata
 dataset = {
    # Zprime -> mumu prompt muons
-   "ZprimeToMuMu_M-6000_TuneCP5_14TeV-pythia8_withAmFeature" : "/ZprimeToMuMu_M-6000_TuneCP5_14TeV-pythia8/Phase2HLTTDRWinter20DIGI-PU200_110X_mcRun4_realistic_v3-v2/GEN-SIM-DIGI-RAW",
+   "ZprimeToMuMu_M-6000_PU200" : "/ZprimeToMuMu_M-6000_TuneCP5_14TeV-pythia8/Phase2HLTTDRWinter20DIGI-PU200_110X_mcRun4_realistic_v3-v2/GEN-SIM-DIGI-RAW",
    # Drell yan
-   "DYToLL_M-50_TuneCP5_14TeV-pythia8" : "/DYToLL_M-50_TuneCP5_14TeV-pythia8/Phase2Fall22DRMiniAOD-PU200_125X_mcRun4_realistic_v2-v1/GEN-SIM-DIGI-RAW-MINIAOD"
+   "DYToLL_M50_PU200" : "/DYToLL_M-50_TuneCP5_14TeV-pythia8/Phase2Fall22DRMiniAOD-PU200_125X_mcRun4_realistic_v2-v1/GEN-SIM-DIGI-RAW-MINIAOD"
 }
 
 # Samples to run (these are keys in the above dictionary)
 listOfSamples = [
-   "ZprimeToMuMu_M-6000_TuneCP5_14TeV-pythia8_withAmFeature",
-   #"DYToLL_M-50_TuneCP5_14TeV-pythia8"
+#   "ZprimeToMuMu_M-6000_PU200",
+   "DYToLL_M50_PU200"
 ]
 
 if __name__ == '__main__':

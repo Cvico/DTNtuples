@@ -36,6 +36,7 @@
 #include "DTDPGAnalysis/DTNtuples/src/DTNtuplePh2TPGThetaFiller.h"
 #include "DTDPGAnalysis/DTNtuples/src/DTNtupleEnvironmentFiller.h"
 #include "DTDPGAnalysis/DTNtuples/src/DTNtupleBmtfFiller.h"
+#include "DTDPGAnalysis/DTNtuples/src/DTNtuplePh2ShowerFiller.h"
 
 #include <iostream>
 
@@ -78,6 +79,8 @@ DTNtupleProducer::DTNtupleProducer( const edm::ParameterSet & config )
 
   m_fillers.push_back(std::make_unique<DTNtuplePh2TPGThetaFiller>(consumesCollector(), m_config, m_tree, "ph2TpgThetaHw",    DTNtuplePh2TPGThetaFiller::TriggerTag::HW));
   m_fillers.push_back(std::make_unique<DTNtuplePh2TPGThetaFiller>(consumesCollector(), m_config, m_tree, "ph2TpgThetaEmuAm", DTNtuplePh2TPGThetaFiller::TriggerTag::AM));
+
+  m_fillers.push_back(std::make_unique<DTNtuplePh2ShowerFiller>(consumesCollector(), m_config, m_tree, "ph2Shower", DTNtuplePh2ShowerFiller::TriggerTag::Ph2Sh));
 
 }
 

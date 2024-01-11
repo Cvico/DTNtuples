@@ -95,12 +95,15 @@ process.source = cms.Source("PoolSource",
 
 )
 
-files = subprocess.check_output(["ls", options.inputFolder])
-process.source.fileNames = ["root://xrootd-cms.infn.it//store/mc/Phase2HLTTDRWinter20DIGI/ZprimeToMuMu_M-6000_TuneCP5_14TeV-pythia8/GEN-SIM-DIGI-RAW/PU200_110X_mcRun4_realistic_v3-v2/40000/00E449AC-F2F5-BD49-9230-DF997178F38F.root"]#"file://" + options.inputFolder + "/" + f.decode() for f in files.split()]
+#files = subprocess.check_output(["ls", options.inputFolder])
+process.source.fileNames = [
+    "root://xrootd-cms.infn.it//store/mc/Phase2HLTTDRWinter20DIGI/ZprimeToMuMu_M-6000_TuneCP5_14TeV-pythia8/GEN-SIM-DIGI-RAW/PU200_110X_mcRun4_realistic_v3-v2/40000/00E449AC-F2F5-BD49-9230-DF997178F38F.root"
 
-if options.secondaryInputFolder != "" :
-    files = subprocess.check_output(["ls", options.secondaryInputFolder])
-    process.source.secondaryFileNames = ["file://" + options.secondaryInputFolder + "/" + f.decode() for f in files.split()]
+]#"file://" + options.inputFolder + "/" + f.decode() for f in files.split()]
+
+#if options.secondaryInputFolder != "" :
+#    files = subprocess.check_output(["ls", options.secondaryInputFolder])
+#    process.source.secondaryFileNames = ["file://" + options.secondaryInputFolder + "/" + f.decode() for f in files.split()]
 
 process.TFileService = cms.Service('TFileService',
         fileName = cms.string(options.ntupleName)
@@ -117,10 +120,14 @@ process.load('Configuration.Geometry.GeometryExtended2026D49_cff')
 
 process.load("L1Trigger.DTTriggerPhase2.CalibratedDigis_cfi") 
 process.load("L1Trigger.DTTriggerPhase2.dtTriggerPhase2PrimitiveDigis_cfi")
+process.load("L1Trigger.DTTriggerPhase2.dtTriggerPhase2Showers_cfi")
 
 process.CalibratedDigis.dtDigiTag = "simMuonDTDigis"
 process.dtTriggerPhase2AmPrimitiveDigis = process.dtTriggerPhase2PrimitiveDigis.clone()
 process.dtTriggerPhase2AmPrimitiveDigis.useRPC = True
+
+process.dtTriggerPhase2ShowerV1 = process.dtTriggerPhase2Shower.clone()
+process.dtTriggerPhase2ShowerV1.debug = False # Turn off debug mode 
 
 process.load('RecoLocalMuon.Configuration.RecoLocalMuon_cff')
 process.dt1DRecHits.dtDigiLabel = "simMuonDTDigis"
@@ -139,6 +146,7 @@ process.p = cms.Path(process.rpcRecHits
                      + process.CalibratedDigis
                      + process.simBmtfDigis
                      + process.dtTriggerPhase2AmPrimitiveDigis
+                     + process.dtTriggerPhase2ShowerV1
                      + process.dtNtupleProducer)
 
 from DTDPGAnalysis.DTNtuples.customiseDtNtuples_cff import customiseForRandomBkg, customiseForRunningOnMC, customiseForFakePhase2Info, customiseForAgeing

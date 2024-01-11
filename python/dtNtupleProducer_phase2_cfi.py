@@ -24,6 +24,7 @@ dtNtupleProducer = cms.EDAnalyzer("DTNtupleProducer",
                                   ph2TPGPhiHwTag = cms.untracked.InputTag("dtTriggerPhase2AmPrimitiveDigis"),
                                   ph2TPGPhiEmuHbTag = cms.untracked.InputTag("none"),
                                   ph2TPGPhiEmuAmTag = cms.untracked.InputTag("dtTriggerPhase2AmPrimitiveDigis"),
+                                  ph2ShowerTag = cms.untracked.InputTag("dtTriggerPhase2ShowerV1"),
 
                                   ph2TPGThHwTag  = cms.untracked.InputTag("none"),
                                   ph2TPGThEmuAmTag  = cms.untracked.InputTag("none"),
