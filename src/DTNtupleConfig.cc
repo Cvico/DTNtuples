@@ -76,6 +76,8 @@ DTNtupleConfig::DTNtupleConfig(const edm::ParameterSet &config, edm::ConsumesCol
 
   m_isoTrigName = config.getUntrackedParameter<std::string>("isoTrigName", "HLT_IsoMu24_v*");
   m_trigName = config.getUntrackedParameter<std::string>("trigName", "HLT_Mu50_v*");
+
+  m_inputTags["ph2ShowerTag"] = config.getUntrackedParameter<edm::InputTag>("ph2ShowerTag", none);
 }
 
 void DTNtupleConfig::getES(const edm::EventSetup &environment) {

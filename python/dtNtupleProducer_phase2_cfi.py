@@ -7,7 +7,7 @@ dtNtupleProducer = cms.EDAnalyzer("DTNtupleProducer",
 
                                   puInfoTag = cms.untracked.InputTag("none"),
                                   lumiScalerTag = cms.untracked.InputTag("none"),
-                                  primaryVerticesTag = cms.untracked.InputTag("offlineSlimmedPrimaryVertices"),
+                                  primaryVerticesTag = cms.untracked.InputTag("none"),
 
                                   ph1DtDigiTag = cms.untracked.InputTag("simMuonDTDigis"),
                                   ph2DtDigiTag = cms.untracked.InputTag("simMuonDTDigis"),
@@ -24,14 +24,17 @@ dtNtupleProducer = cms.EDAnalyzer("DTNtupleProducer",
                                   ph2TPGPhiHwTag = cms.untracked.InputTag("dtTriggerPhase2AmPrimitiveDigis"),
                                   ph2TPGPhiEmuHbTag = cms.untracked.InputTag("none"),
                                   ph2TPGPhiEmuAmTag = cms.untracked.InputTag("dtTriggerPhase2AmPrimitiveDigis"),
+                                  ph2ShowerTag = cms.untracked.InputTag("dtTriggerPhase2ShowerV1"),
+                                  simtracksTag = cms.untracked.InputTag("g4SimHits"),
 
-                                  ph2TPGThHwTag  = cms.untracked.InputTag("none"),
-                                  ph2TPGThEmuAmTag  = cms.untracked.InputTag("none"),
+
+                                  ph2TPGThHwTag  = cms.untracked.InputTag("dtTriggerPhase2AmPrimitiveDigis"),
+                                  ph2TPGThEmuAmTag  = cms.untracked.InputTag("dtTriggerPhase2AmPrimitiveDigis"),
 
                                   ph1DtSegmentTag = cms.untracked.InputTag("dt4DSegments"),
                                   ph2DtSegmentTag = cms.untracked.InputTag("dt4DSegments"),
 
-                                  muonTag = cms.untracked.InputTag("slimmedMuons"),
+                                  muonTag = cms.untracked.InputTag("none"),
 
                                   trigEventTag = cms.untracked.InputTag("none"),
                                   trigResultsTag = cms.untracked.InputTag("none"),
