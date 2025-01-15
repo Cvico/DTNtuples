@@ -78,6 +78,8 @@ DTNtupleConfig::DTNtupleConfig(const edm::ParameterSet &config, edm::ConsumesCol
   m_trigName = config.getUntrackedParameter<std::string>("trigName", "HLT_Mu50_v*");
 
   m_inputTags["ph2ShowerTag"] = config.getUntrackedParameter<edm::InputTag>("ph2ShowerTag", none);
+  m_inputTags["dtSimMuonHit"] = config.getParameter<edm::InputTag>("dtSimMuonHit");
+  m_inputTags["rpcSimMuonHit"] = config.getParameter<edm::InputTag>("rpcSimMuonHit");
 }
 
 void DTNtupleConfig::getES(const edm::EventSetup &environment) {

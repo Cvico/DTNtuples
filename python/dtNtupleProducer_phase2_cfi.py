@@ -28,6 +28,10 @@ dtNtupleProducer = cms.EDAnalyzer("DTNtupleProducer",
                                   simtracksTag = cms.untracked.InputTag("g4SimHits"),
 
 
+                                  dtSimMuonHit = cms.InputTag("g4SimHits", "MuonDTHits"),
+                                  rpcSimMuonHit = cms.InputTag("g4SimHits", "MuonRPCHits"),
+
+
                                   ph2TPGThHwTag  = cms.untracked.InputTag("dtTriggerPhase2AmPrimitiveDigis"),
                                   ph2TPGThEmuAmTag  = cms.untracked.InputTag("dtTriggerPhase2AmPrimitiveDigis"),
 
